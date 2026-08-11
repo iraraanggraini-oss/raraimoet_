@@ -1,1 +1,392 @@
-.
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GadgetStore Management System</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3a8a, var(--primary-color));
+            color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .panel h2 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f5f9;
+            color: var(--primary-color);
+        }
+
+        /* Form Admin Styles */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--primary-color);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            height: 90px;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Status Tracking Box for Admin/Customer */
+        .status-box {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+
+        .status-box h3 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background-color: #fef08a;
+            color: #854d0e;
+        }
+
+        /* Customer Catalog Grid */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .product-content {
+            padding: 15px;
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #16a34a;
+            margin-bottom: 10px;
+        }
+
+        .product-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .product-video {
+            width: 100%;
+            height: 140px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            background: #000;
+        }
+
+        .btn-buy {
+            display: block;
+            text-align: center;
+            background-color: #16a34a;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-buy:hover {
+            background-color: #15803d;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Struktur Tata Letak Utama (Header) -->
+    <header>
+        <h1>GadgetStore Management System</h1>
+        <p>Portal Terpadu Panel Administrator & Katalog Transaksi Pembeli</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- 2. Fitur Panel Admin (Manajemen Produk & Media) -->
+        <section class="panel">
+            <h2>Panel Administrator</h2>
+            <form id="productForm">
+                <div class="form-group">
+                    <label for="prodName">Nama Produk</label>
+                    <input type="text" id="prodName" placeholder="Contoh: Smartphone Pro X" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="prodPrice">Harga Produk (Rp)</label>
+                    <input type="text" id="prodPrice" placeholder="Contoh: 12.000.000" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="prodDesc">Deskripsi Spesifikasi</label>
+                    <textarea id="prodDesc" placeholder="Contoh: Layar 120Hz AMOLED, RAM 12GB, Snapdragon 8 Gen..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="prodImage">URL Gambar Produk</label>
+                    <input type="text" id="prodImage" placeholder="https://example.com/image.jpg" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="prodVideo">URL Video Demo (MP4)</label>
+                    <input type="text" id="prodVideo" placeholder="https://example.com/video.mp4" required>
+                </div>
+
+                <!-- Tombol Aksi Simpan dengan tag <button> -->
+                <button type="submit" class="btn-submit">Simpan Produk ke Database</button>
+            </form>
+
+            <!-- Monitoring Status Pesanan (Admin & Customer Support) -->
+            <div class="status-box">
+                <h3>Monitor Status Pesanan Sistem</h3>
+                <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 8px;">Kelola status pesanan aktif:</p>
+                <select id="orderStatusUpdate" class="form-group" style="margin-bottom: 10px;">
+                    <option value="Belum Dibayar">Pesanan Belum Dibayar</option>
+                    <option value="Sedang Diproses">Pesanan Diproses</option>
+                    <option value="Sedang Dikirim">Pesanan Dikirim</option>
+                    <option value="Selesai">Pesanan Selesai</option>
+                </select>
+                <div style="font-size: 0.9rem;">Status Terkini: <span id="currentStatusBadge" class="status-badge">Pesanan Belum Dibayar</span></div>
+            </div>
+        </section>
+
+        <!-- 3. Fitur Panel Pembeli (Katalog & Transaksi) -->
+        <section class="panel">
+            <h2>Panel Pembeli (Katalog & Transaksi)</h2>
+            
+            <!-- Grid Responsif Katalog Produk -->
+            <div class="catalog-grid" id="catalogGrid">
+                
+                <!-- Contoh Produk 1: Smartphone Premium -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=500&q=80" alt="Smartphone Premium" class="product-image">
+                    <div class="product-content">
+                        <div class="product-title">Gadget X Pro 5G</div>
+                        <div class="product-price">Rp 12.000.000</div>
+                        <div class="product-desc">Layar 120Hz Fluid AMOLED, Chipset Snapdragon Terbaru, RAM 12GB, Kamera 108MP.</div>
+                        
+                        <!-- Tag Video dengan atribut controls -->
+                        <video class="product-video" controls>
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Browser Anda tidak mendukung tag video.
+                        </video>
+                        
+                        <!-- Tag Hyperlink "Beli Sekarang" -->
+                        <a href="#checkout" class="btn-buy" onclick="alert('Mengarahkan ke halaman transaksi/checkout produk Gadget X Pro 5G...')">Beli Sekarang</a>
+                    </div>
+                </div>
+
+                <!-- Contoh Produk 2: Laptop Ultra -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=500&q=80" alt="Laptop Ultra" class="product-image">
+                    <div class="product-content">
+                        <div class="product-title">UltraBook Slim 14</div>
+                        <div class="product-price">Rp 15.500.000</div>
+                        <div class="product-desc">Layar 4K Retina, Prosesor Core i7 Gen-13, RAM 16GB, SSD 512GB NVMe.</div>
+                        
+                        <!-- Tag Video dengan atribut controls -->
+                        <video class="product-video" controls>
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Browser Anda tidak mendukung tag video.
+                        </video>
+                        
+                        <!-- Tag Hyperlink "Beli Sekarang" -->
+                        <a href="#checkout" class="btn-buy" onclick="alert('Mengarahkan ke halaman transaksi/checkout produk UltraBook Slim 14...')">Beli Sekarang</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Skrip interaktif sederhana untuk simulasi perubahan status pesanan
+        const statusSelect = document.getElementById('orderStatusUpdate');
+        const statusBadge = document.getElementById('currentStatusBadge');
+
+        statusSelect.addEventListener('change', function() {
+            statusBadge.textContent = this.value;
+            if(this.value === 'Selesai') {
+                statusBadge.style.backgroundColor = '#dcfce7';
+                statusBadge.style.color = '#166534';
+            } else if(this.value === 'Sedang Dikirim') {
+                statusBadge.style.backgroundColor = '#e0f2fe';
+                statusBadge.style.color = '#0369a1';
+            } else if(this.value === 'Sedang Diproses') {
+                statusBadge.style.backgroundColor = '#ffedd5';
+                statusBadge.style.color = '#c2410c';
+            } else {
+                statusBadge.style.backgroundColor = '#fef08a';
+                statusBadge.style.color = '#854d0e';
+            }
+        });
+
+        // Simulasi tambah produk dari Form Admin ke Katalog Pembeli
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('prodName').value;
+            const price = document.getElementById('prodPrice').value;
+            const desc = document.getElementById('prodDesc').value;
+            const image = document.getElementById('prodImage').value;
+            const video = document.getElementById('prodVideo').value || "https://www.w3schools.com/html/mov_bbb.mp4";
+
+            const catalogGrid = document.getElementById('catalogGrid');
+            
+            const newCard = document.createElement('div');
+            newCard.className = 'product-card';
+            newCard.innerHTML = `
+                <img src="${image}" alt="${name}" class="product-image" onerror="this.src='https://images.unsplash.com/photo-1526738549149-8e07eca6c147?auto=format&fit=crop&w=500&q=80'">
+                <div class="product-content">
+                    <div class="product-title">${name}</div>
+                    <div class="product-price">Rp ${price}</div>
+                    <div class="product-desc">${desc}</div>
+                    <video class="product-video" controls>
+                        <source src="${video}" type="video/mp4">
+                        Browser Anda tidak mendukung tag video.
+                    </video>
+                    <a href="#checkout" class="btn-buy" onclick="alert('Mengarahkan ke halaman transaksi/checkout produk ${name}...')">Beli Sekarang</a>
+                </div>
+            `;
+            
+            catalogGrid.prepend(newCard);
+            alert('Produk berhasil disimpan dan ditambahkan ke katalog pembeli!');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
