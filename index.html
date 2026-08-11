@@ -1,375 +1,405 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>GadgetStore Management System</title>
-  <style>
-    :root{
-      --bg:#f6f7fb;
-      --card:#ffffff;
-      --muted:#6b7280;
-      --accent:#ffb6c1; /* soft pink for buy button */
-      --accent-dark:#ff8da6;
-      --shadow: 0 6px 18px rgba(20,20,50,0.06);
-      --radius:12px;
-      --max-width:1200px;
-    }
-    html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;color:#111;background:var(--bg);}
-    .container{max-width:var(--max-width);margin:28px auto;padding:20px;}
-    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
-    header h1{margin:0;font-size:1.6rem;letter-spacing:0.2px}
-    .subtitle{color:var(--muted);font-size:0.9rem}
-    .main-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:18px;}
-    /* Cards */
-    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;}
-    .card h2{margin:0 0 12px 0;font-size:1.05rem}
-    /* Admin form */
-    form .row{display:flex;gap:12px;margin-bottom:12px}
-    form label{display:block;font-size:0.85rem;color:var(--muted);margin-bottom:6px}
-    input[type="text"], input[type="url"], textarea, input[type="number"]{
-      width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ef;font-size:0.95rem;
-      box-sizing:border-box;
-    }
-    textarea{min-height:100px;resize:vertical}
-    button.primary{
-      background:linear-gradient(180deg,var(--accent) 0%, var(--accent-dark) 100%);
-      color:#fff;border:none;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:600;
-      box-shadow: 0 6px 14px rgba(255,130,160,0.18);
-    }
-    button.primary:active{transform:translateY(1px)}
-    .small{font-size:0.85rem;color:var(--muted)}
-    /* Catalog grid */
-    .catalog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
-    .product-card{display:flex;flex-direction:column;gap:10px;overflow:hidden}
-    .product-media{border-radius:10px;overflow:hidden;background:#f3f4f6}
-    .product-media img{width:100%;height:160px;object-fit:cover;display:block}
-    .product-meta{padding:8px 6px}
-    .product-title{font-weight:600;margin:0 0 6px 0}
-    .product-price{color:#111;font-weight:800}
-    .product-desc{font-size:0.9rem;color:var(--muted);margin:6px 0 8px 0}
-    video{width:100%;height:150px;object-fit:cover;background:#000;border-radius:8px}
-    .buy-btn{
-      display:inline-block;padding:8px 12px;border-radius:999px;text-decoration:none;color:#fff;
-      background:var(--accent);border:none;font-weight:700;cursor:pointer;margin-top:auto;
-      text-align:center;
-    }
-    .buy-btn:hover{background:var(--accent-dark)}
-    .meta-row{display:flex;align-items:center;gap:8px;justify-content:space-between}
-    /* Orders */
-    .orders-list{margin-top:12px;border-top:1px dashed #eee;padding-top:12px}
-    .order-item{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:8px 6px;border-radius:8px;background:#fafafa;border:1px solid #f0f0f2}
-    .order-left{display:flex;gap:8px;align-items:center}
-    .order-id{font-weight:700;font-size:0.9rem}
-    select.status{padding:6px;border-radius:8px;border:1px solid #e6e9ef;background:white}
-    /* Responsive */
-    @media (max-width:980px){
-      .main-grid{grid-template-columns:1fr; }
-      header{flex-direction:column;align-items:flex-start;gap:8px}
-    }
-    footer{margin-top:18px;color:var(--muted);font-size:0.85rem;text-align:center}
-    /* small badges */
-    .badge{font-size:0.8rem;padding:6px 8px;border-radius:999px;background:#f2f6ff;color:#0f3aa1;font-weight:700}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GadgetStore Management System</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Box / Section Card Style */
+        .section-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+        }
+
+        .section-box h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        /* Panel Admin Styling */
+        .admin-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"], textarea, select {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus, textarea:focus, select:focus {
+            border-color: var(--primary-color);
+        }
+
+        textarea {
+            resize: vertical;
+            height: 90px;
+        }
+
+        .btn-simpan {
+            grid-column: span 2;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-simpan:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Panel Pembeli Styling - Grid Katalog */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .product-body {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #16a34a;
+        }
+
+        .product-desc {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .product-video {
+            width: 100%;
+            height: 150px;
+            border-radius: 6px;
+            background: #000;
+            margin-top: 5px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            width: fit-content;
+        }
+
+        .status-pending { background-color: #fef3c7; color: #d97706; }
+        .status-process { background-color: #e0f2fe; color: #0284c7; }
+        .status-shipping { background-color: #f3e8ff; color: #9333ea; }
+        .status-completed { background-color: #dcfce7; color: #16a34a; }
+
+        .btn-buy {
+            display: block;
+            text-align: center;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-buy:hover {
+            background-color: var(--primary-dark);
+        }
+
+        @media (max-width: 768px) {
+            .admin-form {
+                grid-template-columns: 1fr;
+            }
+            .form-group.full-width, .btn-simpan {
+                grid-column: span 1;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
+
+    <!-- 1. Header Utama -->
     <header>
-      <div>
         <h1>GadgetStore Management System</h1>
-        <div class="subtitle">Prototype interaktif: Panel Admin & Panel Pembeli dalam satu tampilan</div>
-      </div>
-      <div class="small">Lead Front-End: Anda • Tanggal prototipe</div>
+        <p>Platform Terpadu Manajemen Inventaris Admin dan Katalog Belanja Interaktif</p>
     </header>
 
-    <main class="main-grid">
-      <!-- Admin Panel -->
-      <section class="card" id="admin-panel" aria-labelledby="admin-title">
-        <h2 id="admin-title">Panel Admin — Manajemen Produk & Pesanan</h2>
+    <div class="container">
 
-        <form id="product-form" onsubmit="return false;">
-          <div class="row">
-            <div style="flex:1">
-              <label for="product-name">Nama Produk</label>
-              <input id="product-name" type="text" placeholder="Contoh: Smartphone Premium" required />
+        <!-- 2. Panel Administrator -->
+        <section class="section-box">
+            <h2>Panel Administrator (Manajemen Produk & Media)</h2>
+            <form class="admin-form" onsubmit="event.preventDefault(); alert('Produk berhasil disimpan ke database!');">
+                <div class="form-group">
+                    <label for="prodName">Nama Produk</label>
+                    <input type="text" id="prodName" placeholder="Contoh: Smartphone Pro X" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="prodPrice">Harga Produk (Rp)</label>
+                    <input type="text" id="prodPrice" placeholder="Contoh: 12000000" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="prodDesc">Deskripsi & Spesifikasi Produk</label>
+                    <textarea id="prodDesc" placeholder="Masukkan spesifikasi utama (Layar 120Hz, RAM, Kamera, dll)..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="prodImg">URL Gambar Produk</label>
+                    <input type="text" id="prodImg" placeholder="https://example.com/image.jpg" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="orderStatusAdmin">Status Pesanan Default</label>
+                    <select id="orderStatusAdmin">
+                        <option value="pending">Pesanan Belum Dibayar</option>
+                        <option value="process">Pesanan Diproses</option>
+                        <option value="shipping">Pesanan Dikirim</option>
+                        <option value="completed">Pesanan Selesai</option>
+                    </select>
+                </div>
+
+                <!-- Tombol Simpan dengan tag <button> -->
+                <button type="submit" class="btn-simpan">Simpan Produk ke Database</button>
+            </form>
+        </section>
+
+        <!-- 3. Panel Pembeli (Katalog & Transaksi - 6 Produk) -->
+        <section class="section-box">
+            <h2>Panel Pembeli (Katalog Produk & Status Transaksi)</h2>
+            <div class="catalog-grid">
+
+                <!-- Produk 1 -->
+                <div class="product-card">
+                    <img class="product-img" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80" alt="Smartphone Premium">
+                    <div class="product-body">
+                        <div class="product-title">Smartphone Premium X</div>
+                        <div class="product-price">Rp 12.000.000</div>
+                        <p class="product-desc">Layar 120Hz AMOLED, RAM 12GB, Snapdragon 8 Gen 3, Kamera 108MP.</p>
+                        <div>
+                            <span class="status-badge status-shipping">Pesanan Dikirim</span>
+                        </div>
+                        <video class="product-video" controls>
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Browser Anda tidak mendukung tag video.
+                        </video>
+                        <a href="#checkout" class="btn-buy">Beli Sekarang</a>
+                    </div>
+                </div>
+
+                <!-- Produk 2 -->
+                <div class="product-card">
+                    <img class="product-img" src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80" alt="Laptop Ultra">
+                    <div class="product-body">
+                        <div class="product-title">Laptop UltraBook Z</div>
+                        <div class="product-price">Rp 15.500.000</div>
+                        <p class="product-desc">Layar 14" Retina, RAM 16GB, SSD 512GB, Baterai tahan 18 jam.</p>
+                        <div>
+                            <span class="status-badge status-process">Pesanan Diproses</span>
+                        </div>
+                        <video class="product-video" controls>
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Browser Anda tidak mendukung tag video.
+                        </video>
+                        <a href="#checkout" class="btn-buy">Beli Sekarang</a>
+                    </div>
+                </div>
+
+                <!-- Produk 3 -->
+                <div class="product-card">
+                    <img class="product-img" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80" alt="Wireless Headphone">
+                    <div class="product-body">
+                        <div class="product-title">Wireless Headphone ANC</div>
+                        <div class="product-price">Rp 2.800.000</div>
+                        <p class="product-desc">Active Noise Cancelling, Hi-Res Audio, 40 Jam Pemutaran Musik.</p>
+                        <div>
+                            <span class="status-badge status-pending">Pesanan Belum Dibayar</span>
+                        </div>
+                        <video class="product-video" controls>
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Browser Anda tidak mendukung tag video.
+                        </video>
+                        <a href="#checkout" class="btn-buy">Beli Sekarang</a>
+                    </div>
+                </div>
+
+                <!-- Produk 4 -->
+                <div class="product-card">
+                    <img class="product-img" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80" alt="Smartwatch Pro">
+                    <div class="product-body">
+                        <div class="product-title">Smartwatch Active Pro</div>
+                        <div class="product-price">Rp 3.200.000</div>
+                        <p class="product-desc">GPS Terintegrasi, Monitor Detak Jantung, Tahan Air 5ATM.</p>
+                        <div>
+                            <span class="status-badge status-completed">Pesanan Selesai</span>
+                        </div>
+                        <video class="product-video" controls>
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Browser Anda tidak mendukung tag video.
+                        </video>
+                        <a href="#checkout" class="btn-buy">Beli Sekarang</a>
+                    </div>
+                </div>
+
+                <!-- Produk 5 -->
+                <div class="product-card">
+                    <img class="product-img" src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=600&q=80" alt="Tablet Gen">
+                    <div class="product-body">
+                        <div class="product-title">Tablet Creator Tab</div>
+                        <div class="product-price">Rp 8.900.000</div>
+                        <p class="product-desc">Layar 11" 90Hz, Mendukung Stylus Pen, Quad Speakers Dolby Atmos.</p>
+                        <div>
+                            <span class="status-badge status-process">Pesanan Diproses</span>
+                        </div>
+                        <video class="product-video" controls>
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Browser Anda tidak mendukung tag video.
+                        </video>
+                        <a href="#checkout" class="btn-buy">Beli Sekarang</a>
+                    </div>
+                </div>
+
+                <!-- Produk 6 -->
+                <div class="product-card">
+                    <img class="product-img" src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=600&q=80" alt="Gaming Console">
+                    <div class="product-body">
+                        <div class="product-title">Console Game Box X</div>
+                        <div class="product-price">Rp 7.500.000</div>
+                        <p class="product-desc">Resolusi 4K Gaming, SSD Ultra Cepat, Kontroler Nirkabel Ergonomis.</p>
+                        <div>
+                            <span class="status-badge status-pending">Pesanan Belum Dibayar</span>
+                        </div>
+                        <video class="product-video" controls>
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Browser Anda tidak mendukung tag video.
+                        </video>
+                        <a href="#checkout" class="btn-buy">Beli Sekarang</a>
+                    </div>
+                </div>
+
             </div>
-            <div style="width:140px">
-              <label for="product-price">Harga (Rp)</label>
-              <input id="product-price" type="number" placeholder="12000000" min="0" required />
-            </div>
-          </div>
+        </section>
 
-          <div style="margin-bottom:12px">
-            <label for="product-desc">Deskripsi & Spesifikasi</label>
-            <textarea id="product-desc" placeholder="Contoh: Layar 120Hz, RAM 12GB, Kamera 108MP..."></textarea>
-          </div>
+    </div>
 
-          <div class="row">
-            <div style="flex:1">
-              <label for="product-image">URL Gambar Produk (image src)</label>
-              <input id="product-image" type="url" placeholder="https://.../image.jpg" />
-            </div>
-            <div style="flex:1">
-              <label for="product-video">URL Video Demo (mp4)</label>
-              <input id="product-video" type="url" placeholder="https://.../video.mp4" />
-            </div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:center;margin-top:10px;">
-            <button id="save-product" class="primary">Simpan Produk ke Database</button>
-            <div class="small">Produk akan ditambahkan ke katalog (mock database lokal).</div>
-          </div>
-        </form>
-
-        <div class="orders-list" aria-live="polite">
-          <h3 style="margin:12px 0 8px 0">Daftar Pesanan (Admin view)</h3>
-          <div id="admin-orders"></div>
-        </div>
-      </section>
-
-      <!-- Customer Panel -->
-      <section class="card" id="customer-panel" aria-labelledby="customer-title">
-        <h2 id="customer-title">Panel Pembeli — Katalog & Transaksi</h2>
-
-        <div style="margin-bottom:10px" class="small">Klik tombol "Beli Sekarang" untuk membuat pesanan. Cek status pesanan di bawah.</div>
-
-        <div id="catalog" class="catalog-grid" aria-live="polite">
-          <!-- product cards injected here -->
-        </div>
-
-        <div class="orders-list" style="margin-top:14px">
-          <h3 style="margin:8px 0">Daftar Pesanan Saya (Pembeli)</h3>
-          <div id="buyer-orders"></div>
-        </div>
-
-      </section>
-    </main>
-
-    <footer>
-      Prototype ini menyimpan data pada memori browser (JS). Untuk produksi, hubungkan API backend & database.
-    </footer>
-  </div>
-
-  <script>
-    // Simple in-memory "database"
-    const products = [
-      {
-        id: crypto.randomUUID(),
-        name: "Smartphone Premium",
-        price: 12000000,
-        desc: "Layar 120Hz • RAM 12GB • Kamera 108MP • Baterai 5000mAh",
-        img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=9dbe5f9d5d9b8cd98b3c6f6b0f8d7c1a",
-        video: "https://www.w3schools.com/html/mov_bbb.mp4"
-      },
-      {
-        id: crypto.randomUUID(),
-        name: "Laptop Ultra",
-        price: 22000000,
-        desc: "Intel i9 • RAM 32GB • Layar 4K • SSD 1TB • Bobot ringkas",
-        img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=3bb4f4f4c5c32e86ef6fc1b4dcd2ec05",
-        video: "https://www.w3schools.com/html/movie.mp4"
-      }
-    ];
-
-    const orders = []; // {id, productId, productName, status, createdAt}
-
-    // Helpers
-    function formatRp(n){
-      if (isNaN(n)) return n;
-      return 'Rp ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
-
-    // Render functions
-    function renderCatalog(){
-      const container = document.getElementById('catalog');
-      container.innerHTML = '';
-      products.forEach(p=>{
-        const card = document.createElement('article');
-        card.className = 'product-card card';
-        card.innerHTML = `
-          <div class="product-media">
-            <img src="${p.img}" alt="${escapeHtml(p.name)}">
-          </div>
-          <div class="product-meta">
-            <p class="product-title">${escapeHtml(p.name)}</p>
-            <p class="product-price">${formatRp(p.price)}</p>
-            <p class="product-desc">${escapeHtml(p.desc)}</p>
-            <video controls preload="metadata" poster="${p.img}">
-              <source src="${p.video}" type="video/mp4">
-              Browser Anda tidak mendukung tag video.
-            </video>
-            <div class="meta-row" style="margin-top:8px">
-              <div class="small">Stok: <span class="badge">Tersedia</span></div>
-              <a href="#" class="buy-btn" data-product-id="${p.id}">Beli Sekarang</a>
-            </div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-
-      // Attach buy handlers
-      document.querySelectorAll('.buy-btn').forEach(btn=>{
-        btn.addEventListener('click', (e)=>{
-          e.preventDefault();
-          const pid = btn.dataset.productId;
-          createOrder(pid);
-        });
-      });
-    }
-
-    function renderOrders(){
-      // buyer view
-      const buyerEl = document.getElementById('buyer-orders');
-      buyerEl.innerHTML = '';
-      if (orders.length===0){
-        buyerEl.innerHTML = '<div class="small">Belum ada pesanan.</div>';
-      } else {
-        orders.forEach(o=>{
-          const el = document.createElement('div');
-          el.className = 'order-item';
-          el.innerHTML = `
-            <div class="order-left">
-              <div style="width:40px;height:40px;border-radius:6px;overflow:hidden;background:#fff;border:1px solid #eee">
-                <img src="${escapeHtml(o.img)}" alt="${escapeHtml(o.productName)}" style="width:100%;height:100%;object-fit:cover">
-              </div>
-              <div>
-                <div class="order-id">${escapeHtml(o.productName)}</div>
-                <div class="small">Order#: ${o.id.split('-')[0]} • ${new Date(o.createdAt).toLocaleString()}</div>
-              </div>
-            </div>
-            <div style="display:flex;gap:8px;align-items:center">
-              <div class="small" style="min-width:100px;text-align:right">${formatRp(o.price)}</div>
-              <div class="small" style="font-weight:700;color:#0f172a">${statusLabel(o.status)}</div>
-            </div>
-          `;
-          buyerEl.appendChild(el);
-        });
-      }
-
-      // admin view (with ability to change status)
-      const adminEl = document.getElementById('admin-orders');
-      adminEl.innerHTML = '';
-      if (orders.length===0){
-        adminEl.innerHTML = '<div class="small">Belum ada pesanan.</div>';
-      } else {
-        orders.forEach(o=>{
-          const el = document.createElement('div');
-          el.className = 'order-item';
-          el.style.marginBottom = '8px';
-          el.innerHTML = `
-            <div style="display:flex;gap:8px;align-items:center">
-              <div style="width:44px;height:44px;border-radius:8px;overflow:hidden;border:1px solid #eee">
-                <img src="${escapeHtml(o.img)}" alt="${escapeHtml(o.productName)}" style="width:100%;height:100%;object-fit:cover">
-              </div>
-              <div>
-                <div class="order-id">${escapeHtml(o.productName)}</div>
-                <div class="small">Order#: ${o.id.split('-')[0]} • ${new Date(o.createdAt).toLocaleString()}</div>
-              </div>
-            </div>
-            <div style="display:flex;gap:8px;align-items:center">
-              <div class="small" style="min-width:100px;text-align:right">${formatRp(o.price)}</div>
-              <select class="status" data-order-id="${o.id}">
-                <option value="belum_dibayar">Belum Dibayar</option>
-                <option value="diproses">Pesanan Diproses</option>
-                <option value="dikirim">Pesanan Dikirim</option>
-                <option value="selesai">Selesai</option>
-              </select>
-            </div>
-          `;
-          adminEl.appendChild(el);
-
-          // set current value & listen
-          const sel = el.querySelector('select.status');
-          sel.value = o.status;
-          sel.addEventListener('change', (e)=>{
-            const newStatus = e.target.value;
-            updateOrderStatus(o.id, newStatus);
-          });
-        });
-      }
-    }
-
-    function statusLabel(s){
-      switch(s){
-        case 'belum_dibayar': return 'Belum Dibayar';
-        case 'diproses': return 'Diproses';
-        case 'dikirim': return 'Dikirim';
-        case 'selesai': return 'Selesai';
-        default: return s;
-      }
-    }
-
-    function createOrder(productId){
-      const p = products.find(x=>x.id===productId);
-      if (!p){ alert('Produk tidak ditemukan'); return; }
-      const order = {
-        id: crypto.randomUUID(),
-        productId: p.id,
-        productName: p.name,
-        img: p.img,
-        price: p.price,
-        status: 'belum_dibayar',
-        createdAt: Date.now()
-      };
-      orders.unshift(order);
-      renderOrders();
-      // brief visual feedback
-      alert(`Pesanan untuk "${p.name}" dibuat. Status: ${statusLabel(order.status)}`);
-    }
-
-    function updateOrderStatus(orderId, newStatus){
-      const idx = orders.findIndex(o=>o.id===orderId);
-      if (idx===-1) return;
-      orders[idx].status = newStatus;
-      renderOrders();
-    }
-
-    // Admin save product
-    document.getElementById('save-product').addEventListener('click', ()=>{
-      const name = document.getElementById('product-name').value.trim();
-      const price = parseInt(document.getElementById('product-price').value,10);
-      const desc = document.getElementById('product-desc').value.trim();
-      const img = document.getElementById('product-image').value.trim() || 'https://via.placeholder.com/640x360?text=No+Image';
-      const video = document.getElementById('product-video').value.trim() || 'https://www.w3schools.com/html/mov_bbb.mp4';
-
-      if (!name || isNaN(price)){
-        alert('Nama dan Harga produk wajib diisi dengan benar.');
-        return;
-      }
-
-      const newP = { id: crypto.randomUUID(), name, price, desc, img, video };
-      products.unshift(newP);
-      renderCatalog();
-      // clear form
-      document.getElementById('product-name').value='';
-      document.getElementById('product-price').value='';
-      document.getElementById('product-desc').value='';
-      document.getElementById('product-image').value='';
-      document.getElementById('product-video').value='';
-      alert('Produk berhasil disimpan ke "database" (memori).');
-    });
-
-    // Utility to avoid XSS in injected strings
-    function escapeHtml(unsafe) {
-      return String(unsafe)
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
-    }
-
-    // initial render
-    renderCatalog();
-    renderOrders();
-
-    // Accessibility: keyboard purchase via Enter when focused on buy (delegation)
-    document.addEventListener('keydown', (e)=>{
-      if ((e.key === 'Enter' || e.key === ' ') && document.activeElement && document.activeElement.classList.contains('buy-btn')){
-        e.preventDefault();
-        document.activeElement.click();
-      }
-    });
-  </script>
 </body>
 </html>
