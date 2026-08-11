@@ -5,15 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GadgetStore Management System</title>
     <style>
-        :root {
-            --primary-color: #2563eb;
-            --primary-dark: #1d4ed8;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-color: #1e293b;
-            --border-color: #e2e8f0;
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -22,382 +13,421 @@
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            padding: 20px;
+            background-color: #fff0f5; /* Pink soft background */
+            color: #4a4a4a;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Mencegah scroll halaman utama */
         }
 
+        /* Header */
         header {
+            background-color: #ffb6c1; /* Soft pink header */
+            color: #5c3a42;
+            padding: 12px 20px;
             text-align: center;
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
 
         header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 5px;
-        }
-
-        header p {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        /* Box / Section Card Style */
-        .section-box {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
-            padding: 25px;
-        }
-
-        .section-box h2 {
-            margin-bottom: 20px;
             font-size: 1.5rem;
-            color: var(--primary-dark);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
+            font-weight: 700;
         }
 
-        /* Panel Admin Styling */
-        .admin-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .form-group {
+        /* Main Container: Samping-sampingan tanpa scroll keseluruhan */
+        .main-container {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-group.full-width {
-            grid-column: span 2;
-        }
-
-        label {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        input[type="text"], textarea, select {
-            padding: 10px 14px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        input[type="text"]:focus, textarea:focus, select:focus {
-            border-color: var(--primary-color);
-        }
-
-        textarea {
-            resize: vertical;
-            height: 90px;
-        }
-
-        .btn-simpan {
-            grid-column: span 2;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .btn-simpan:hover {
-            background-color: var(--primary-dark);
-        }
-
-        /* Panel Pembeli Styling - Grid Katalog */
-        .catalog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 25px;
-        }
-
-        .product-card {
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
+            flex: 1;
+            gap: 15px;
+            padding: 15px;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-        }
-
-        .product-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .product-body {
+        /* Panel Admin (Kiri) */
+        .admin-panel {
+            flex: 1;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(255, 182, 193, 0.3);
             padding: 15px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            flex-grow: 1;
+            overflow-y: auto;
         }
 
-        .product-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-color);
+        .admin-panel h2 {
+            font-size: 1.1rem;
+            color: #d87093;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #ffe4e1;
+            padding-bottom: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 3px;
+            font-weight: 600;
+            color: #6d4c5c;
+        }
+
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ffc0cb;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            background-color: #fffaf0;
+        }
+
+        .form-group textarea {
+            resize: none;
+            height: 60px;
+        }
+
+        .btn-save {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn-save:hover {
+            background-color: #ff1493;
+        }
+
+        .order-status-box {
+            margin-top: 15px;
+            background: #fff0f5;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px dashed #ffb6c1;
+        }
+
+        .order-status-box h3 {
+            font-size: 0.9rem;
+            color: #d87093;
+            margin-bottom: 5px;
+        }
+
+        .order-status-box p {
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        /* Panel Pembeli / Katalog (Kanan) */
+        .customer-panel {
+            flex: 2.2;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(255, 182, 193, 0.3);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .customer-panel h2 {
+            font-size: 1.1rem;
+            color: #d87093;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ffe4e1;
+            padding-bottom: 5px;
+        }
+
+        /* Grid Katalog 6 Produk (Bisa di-scroll bagian isinya saja) */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            overflow-y: auto;
+            flex: 1;
+            padding-right: 5px;
+        }
+
+        .product-card {
+            background: #fffafa;
+            border: 1px solid #ffdae9;
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .product-info h4 {
+            font-size: 0.85rem;
+            margin-top: 5px;
+            color: #333;
         }
 
         .product-price {
-            font-size: 1.1rem;
+            font-size: 0.85rem;
             font-weight: bold;
-            color: #16a34a;
+            color: #d87093;
+            margin: 2px 0;
         }
 
         .product-desc {
-            font-size: 0.9rem;
-            color: #64748b;
+            font-size: 0.72rem;
+            color: #666;
+            margin-bottom: 5px;
+            line-height: 1.2;
         }
 
-        .product-video {
+        /* Video Demo kecil di dalam kartu */
+        .product-card video {
             width: 100%;
-            height: 150px;
-            border-radius: 6px;
+            height: 70px;
+            border-radius: 4px;
             background: #000;
-            margin-top: 5px;
+            margin-bottom: 5px;
         }
 
-        .status-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            width: fit-content;
+        .product-options {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 5px;
         }
 
-        .status-pending { background-color: #fef3c7; color: #d97706; }
-        .status-process { background-color: #e0f2fe; color: #0284c7; }
-        .status-shipping { background-color: #f3e8ff; color: #9333ea; }
-        .status-completed { background-color: #dcfce7; color: #16a34a; }
+        .product-options select {
+            flex: 1;
+            padding: 3px;
+            font-size: 0.7rem;
+            border: 1px solid #ffb6c1;
+            border-radius: 4px;
+        }
+
+        .action-container {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-cart {
+            background-color: #dda0dd;
+            color: white;
+            border: none;
+            padding: 5px 8px;
+            font-size: 0.7rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-cart:hover {
+            background-color: #ba55d3;
+        }
 
         .btn-buy {
-            display: block;
-            text-align: center;
-            background-color: var(--primary-color);
+            background-color: #ff69b4;
             color: white;
             text-decoration: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: 600;
-            margin-top: 10px;
-            transition: background-color 0.2s;
+            padding: 5px 8px;
+            font-size: 0.7rem;
+            border-radius: 4px;
+            text-align: center;
+            flex: 1;
+            font-weight: bold;
         }
 
         .btn-buy:hover {
-            background-color: var(--primary-dark);
-        }
-
-        @media (max-width: 768px) {
-            .admin-form {
-                grid-template-columns: 1fr;
-            }
-            .form-group.full-width, .btn-simpan {
-                grid-column: span 1;
-            }
+            background-color: #ff1493;
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. Header Utama -->
+    <!-- Header Utama -->
     <header>
         <h1>GadgetStore Management System</h1>
-        <p>Platform Terpadu Manajemen Inventaris Admin dan Katalog Belanja Interaktif</p>
     </header>
 
-    <div class="container">
+    <!-- Konten Utama: Samping-sampingan (Admin & Pembeli) -->
+    <div class="main-container">
+        
+        <!-- Panel Administrator -->
+        <div class="admin-panel">
+            <h2>Panel Administrator (Kelola Produk)</h2>
+            <div class="form-group">
+                <label>Nama Produk</label>
+                <input type="text" placeholder="Masukkan nama gadget...">
+            </div>
+            <div class="form-group">
+                <label>Deskripsi & Harga Produk</label>
+                <textarea placeholder="Tulis spesifikasi dan harga..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>URL Gambar Produk</label>
+                <input type="text" placeholder="https://contoh.com/gambar.jpg">
+            </div>
+            <div class="form-group">
+                <label>Status Kontrol Pesanan (Admin)</label>
+                <select>
+                    <option>Pesanan Belum Dibayar</option>
+                    <option>Pesanan Diproses</option>
+                    <option>Pesanan Dikirim</option>
+                    <option>Pesanan Selesai</option>
+                </select>
+            </div>
+            <button class="btn-save">Simpan Produk ke Database</button>
 
-        <!-- 2. Panel Administrator -->
-        <section class="section-box">
-            <h2>Panel Administrator (Manajemen Produk & Media)</h2>
-            <form class="admin-form" onsubmit="event.preventDefault(); alert('Produk berhasil disimpan ke database!');">
-                <div class="form-group">
-                    <label for="prodName">Nama Produk</label>
-                    <input type="text" id="prodName" placeholder="Contoh: Smartphone Pro X" required>
-                </div>
+            <div class="order-status-box">
+                <h3>Monitor Status Pesanan Masuk</h3>
+                <p>Status Terkini: <b>Pesanan Diproses</b></p>
+                <p style="font-size: 0.75rem; color: #888; margin-top: 3px;">Sinkronisasi otomatis dengan panel pembeli.</p>
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label for="prodPrice">Harga Produk (Rp)</label>
-                    <input type="text" id="prodPrice" placeholder="Contoh: 12000000" required>
-                </div>
-
-                <div class="form-group full-width">
-                    <label for="prodDesc">Deskripsi & Spesifikasi Produk</label>
-                    <textarea id="prodDesc" placeholder="Masukkan spesifikasi utama (Layar 120Hz, RAM, Kamera, dll)..." required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="prodImg">URL Gambar Produk</label>
-                    <input type="text" id="prodImg" placeholder="https://example.com/image.jpg" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="orderStatusAdmin">Status Pesanan Default</label>
-                    <select id="orderStatusAdmin">
-                        <option value="pending">Pesanan Belum Dibayar</option>
-                        <option value="process">Pesanan Diproses</option>
-                        <option value="shipping">Pesanan Dikirim</option>
-                        <option value="completed">Pesanan Selesai</option>
-                    </select>
-                </div>
-
-                <!-- Tombol Simpan dengan tag <button> -->
-                <button type="submit" class="btn-simpan">Simpan Produk ke Database</button>
-            </form>
-        </section>
-
-        <!-- 3. Panel Pembeli (Katalog & Transaksi - 6 Produk) -->
-        <section class="section-box">
-            <h2>Panel Pembeli (Katalog Produk & Status Transaksi)</h2>
+        <!-- Panel Pembeli / Katalog -->
+        <div class="customer-panel">
+            <h2>Katalog Produk & Transaksi Pembeli</h2>
+            
+            <!-- Grid 6 Produk -->
             <div class="catalog-grid">
-
+                
                 <!-- Produk 1 -->
                 <div class="product-card">
-                    <img class="product-img" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80" alt="Smartphone Premium">
-                    <div class="product-body">
-                        <div class="product-title">Smartphone Premium X</div>
+                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300" alt="Smartphone Premium">
+                    <div class="product-info">
+                        <h4>Smartphone X Pro</h4>
                         <div class="product-price">Rp 12.000.000</div>
-                        <p class="product-desc">Layar 120Hz AMOLED, RAM 12GB, Snapdragon 8 Gen 3, Kamera 108MP.</p>
-                        <div>
-                            <span class="status-badge status-shipping">Pesanan Dikirim</span>
-                        </div>
-                        <video class="product-video" controls>
+                        <div class="product-desc">Layar AMOLED 120Hz, RAM 12GB, Kamera 108MP.</div>
+                        <video controls>
                             <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                            Browser Anda tidak mendukung tag video.
                         </video>
+                        <div class="product-options">
+                            <select><option>Warna: Pink Soft</option><option>Warna: Hitam Onyx</option></select>
+                            <select><option>RAM 12GB</option></select>
+                        </div>
+                    </div>
+                    <div class="action-container">
+                        <button class="btn-cart">+ Keranjang</button>
                         <a href="#checkout" class="btn-buy">Beli Sekarang</a>
                     </div>
                 </div>
 
                 <!-- Produk 2 -->
                 <div class="product-card">
-                    <img class="product-img" src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80" alt="Laptop Ultra">
-                    <div class="product-body">
-                        <div class="product-title">Laptop UltraBook Z</div>
+                    <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300" alt="Laptop Ultra">
+                    <div class="product-info">
+                        <h4>Laptop Ultra Slim</h4>
                         <div class="product-price">Rp 15.500.000</div>
-                        <p class="product-desc">Layar 14" Retina, RAM 16GB, SSD 512GB, Baterai tahan 18 jam.</p>
-                        <div>
-                            <span class="status-badge status-process">Pesanan Diproses</span>
-                        </div>
-                        <video class="product-video" controls>
+                        <div class="product-desc">Intel Core i7, RAM 16GB, SSD 512GB, Ringan.</div>
+                        <video controls>
                             <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                            Browser Anda tidak mendukung tag video.
                         </video>
+                        <div class="product-options">
+                            <select><option>SSD 512GB</option><option>SSD 1TB</option></select>
+                        </div>
+                    </div>
+                    <div class="action-container">
+                        <button class="btn-cart">+ Keranjang</button>
                         <a href="#checkout" class="btn-buy">Beli Sekarang</a>
                     </div>
                 </div>
 
                 <!-- Produk 3 -->
                 <div class="product-card">
-                    <img class="product-img" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80" alt="Wireless Headphone">
-                    <div class="product-body">
-                        <div class="product-title">Wireless Headphone ANC</div>
+                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300" alt="Wireless Headphone">
+                    <div class="product-info">
+                        <h4>Headphone ANC Pro</h4>
                         <div class="product-price">Rp 2.800.000</div>
-                        <p class="product-desc">Active Noise Cancelling, Hi-Res Audio, 40 Jam Pemutaran Musik.</p>
-                        <div>
-                            <span class="status-badge status-pending">Pesanan Belum Dibayar</span>
-                        </div>
-                        <video class="product-video" controls>
+                        <div class="product-desc">Active Noise Cancelling, Baterai 40 Jam.</div>
+                        <video controls>
                             <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                            Browser Anda tidak mendukung tag video.
                         </video>
+                        <div class="product-options">
+                            <select><option>Warna: Rose Gold</option><option>Warna: Silver</option></select>
+                        </div>
+                    </div>
+                    <div class="action-container">
+                        <button class="btn-cart">+ Keranjang</button>
                         <a href="#checkout" class="btn-buy">Beli Sekarang</a>
                     </div>
                 </div>
 
                 <!-- Produk 4 -->
                 <div class="product-card">
-                    <img class="product-img" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80" alt="Smartwatch Pro">
-                    <div class="product-body">
-                        <div class="product-title">Smartwatch Active Pro</div>
-                        <div class="product-price">Rp 3.200.000</div>
-                        <p class="product-desc">GPS Terintegrasi, Monitor Detak Jantung, Tahan Air 5ATM.</p>
-                        <div>
-                            <span class="status-badge status-completed">Pesanan Selesai</span>
-                        </div>
-                        <video class="product-video" controls>
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300" alt="Smartwatch">
+                    <div class="product-info">
+                        <h4>Smartwatch Active</h4>
+                        <div class="product-price">Rp 1.900.000</div>
+                        <div class="product-desc">Monitor Detak Jantung, GPS, Waterproof IP68.</div>
+                        <video controls>
                             <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                            Browser Anda tidak mendukung tag video.
                         </video>
+                        <div class="product-options">
+                            <select><option>Strap: Pink Silicon</option><option>Strap: Black</option></select>
+                        </div>
+                    </div>
+                    <div class="action-container">
+                        <button class="btn-cart">+ Keranjang</button>
                         <a href="#checkout" class="btn-buy">Beli Sekarang</a>
                     </div>
                 </div>
 
                 <!-- Produk 5 -->
                 <div class="product-card">
-                    <img class="product-img" src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=600&q=80" alt="Tablet Gen">
-                    <div class="product-body">
-                        <div class="product-title">Tablet Creator Tab</div>
-                        <div class="product-price">Rp 8.900.000</div>
-                        <p class="product-desc">Layar 11" 90Hz, Mendukung Stylus Pen, Quad Speakers Dolby Atmos.</p>
-                        <div>
-                            <span class="status-badge status-process">Pesanan Diproses</span>
-                        </div>
-                        <video class="product-video" controls>
+                    <img src="https://images.unsplash.com/photo-1585336261022-6fc467990ef3?w=300" alt="Tablet Pro">
+                    <div class="product-info">
+                        <h4>Tablet Tab 11"</h4>
+                        <div class="product-price">Rp 6.400.000</div>
+                        <div class="product-desc">Layar 2K IPS, Support Stylus Pen, Quad Speaker.</div>
+                        <video controls>
                             <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                            Browser Anda tidak mendukung tag video.
                         </video>
+                        <div class="product-options">
+                            <select><option>WiFi Only</option><option>Cellular + WiFi</option></select>
+                        </div>
+                    </div>
+                    <div class="action-container">
+                        <button class="btn-cart">+ Keranjang</button>
                         <a href="#checkout" class="btn-buy">Beli Sekarang</a>
                     </div>
                 </div>
 
                 <!-- Produk 6 -->
                 <div class="product-card">
-                    <img class="product-img" src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=600&q=80" alt="Gaming Console">
-                    <div class="product-body">
-                        <div class="product-title">Console Game Box X</div>
-                        <div class="product-price">Rp 7.500.000</div>
-                        <p class="product-desc">Resolusi 4K Gaming, SSD Ultra Cepat, Kontroler Nirkabel Ergonomis.</p>
-                        <div>
-                            <span class="status-badge status-pending">Pesanan Belum Dibayar</span>
-                        </div>
-                        <video class="product-video" controls>
+                    <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=300" alt="TWS Earbuds">
+                    <div class="product-info">
+                        <h4>TWS Pods Mini</h4>
+                        <div class="product-price">Rp 850.000</div>
+                        <div class="product-desc">Bluetooth 5.3, Latency Rendah, Suara Bass Jernih.</div>
+                        <video controls>
                             <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                            Browser Anda tidak mendukung tag video.
                         </video>
+                        <div class="product-options">
+                            <select><option>Warna: Pink Pastel</option><option>Warna: White</option></select>
+                        </div>
+                    </div>
+                    <div class="action-container">
+                        <button class="btn-cart">+ Keranjang</button>
                         <a href="#checkout" class="btn-buy">Beli Sekarang</a>
                     </div>
                 </div>
 
             </div>
-        </section>
+        </div>
 
     </div>
 
