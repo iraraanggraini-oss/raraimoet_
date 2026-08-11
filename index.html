@@ -1,103 +1,1271 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <title>GadgetStore Pro - System Checkout</title>
-    <style>
-        body { background-color: #ffeef2; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; }
-        
-        /* Layout Header */
-        .header { background: #ff758c; color: white; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
-        
-        /* Layout Grid Utama */
-        .wrapper { display: flex; gap: 20px; align-items: flex-start; }
-        
-        /* Panel Kiri: Admin (Form) */
-        .admin-section { width: 300px; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        
-        /* Panel Kanan: Katalog & Checkout */
-        .shop-section { flex-grow: 1; display: flex; flex-direction: column; gap: 20px; }
-        
-        /* Grid Produk */
-        .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-        .product-item { background: white; padding: 15px; border-radius: 15px; border: 2px solid #ffccd5; }
-        .product-item img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; }
-        
-        /* Area Checkout */
-        .checkout-area { background: #ffafcc; padding: 20px; border-radius: 15px; }
-        
-        button { cursor: pointer; background: #ff4d6d; color: white; border: none; padding: 10px; border-radius: 8px; width: 100%; margin-top: 5px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GadgetStore Management System</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:#fff7fa;
+  color:#444;
+}
+
+header{
+  background:linear-gradient(135deg,#f8bbd0,#fce4ec);
+  padding:25px 15px;
+  text-align:center;
+  box-shadow:0 3px 15px #e7b7c7;
+}
+
+header h1{
+  color:#ad315d;
+  font-size:28px;
+}
+
+header p{
+  margin-top:8px;
+  color:#76505d;
+}
+
+nav{
+  background:#fff;
+  padding:12px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  position:sticky;
+  top:0;
+  z-index:99;
+  box-shadow:0 2px 10px #ddd;
+}
+
+nav button{
+  border:0;
+  padding:10px 15px;
+  border-radius:20px;
+  background:#fce4ec;
+  color:#ad315d;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+nav button:hover{
+  background:#ec407a;
+  color:#fff;
+}
+
+.container{
+  width:95%;
+  max-width:1200px;
+  margin:25px auto;
+}
+
+.section{
+  background:#fff;
+  padding:25px;
+  margin-bottom:25px;
+  border-radius:20px;
+  border:1px solid #f3c6d5;
+  box-shadow:0 5px 20px rgba(200,100,130,.12);
+}
+
+.section h2{
+  color:#c23868;
+  margin-bottom:20px;
+}
+
+.admin-form{
+  display:grid;
+  gap:15px;
+}
+
+.admin-form input,
+.admin-form textarea{
+  width:100%;
+  padding:13px;
+  border:1px solid #e8b6c7;
+  border-radius:12px;
+  outline:none;
+}
+
+.admin-form textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.admin-form input:focus,
+.admin-form textarea:focus{
+  border-color:#ec407a;
+}
+
+.btn{
+  border:0;
+  padding:13px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.btn-pink{
+  background:#ec407a;
+  color:#fff;
+}
+
+.btn-light{
+  background:#fce4ec;
+  color:#ad315d;
+}
+
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+
+.product{
+  border:1px solid #f2c6d5;
+  border-radius:18px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:0 5px 15px rgba(0,0,0,.07);
+  transition:.3s;
+}
+
+.product:hover{
+  transform:translateY(-5px);
+  box-shadow:0 10px 25px rgba(236,64,122,.18);
+}
+
+.product-img{
+  width:100%;
+  height:210px;
+  object-fit:cover;
+  display:block;
+}
+
+.product-content{
+  padding:17px;
+}
+
+.product h3{
+  color:#a82f58;
+  margin-bottom:8px;
+}
+
+.price{
+  color:#ec407a;
+  font-size:19px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.desc{
+  font-size:14px;
+  color:#777;
+  line-height:1.5;
+  margin-bottom:12px;
+}
+
+.product video{
+  width:100%;
+  height:180px;
+  background:#222;
+  object-fit:cover;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+}
+
+.actions a,
+.actions button{
+  flex:1;
+  text-align:center;
+  text-decoration:none;
+  border:0;
+  padding:11px 7px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:13px;
+}
+
+.buy{
+  background:#ec407a;
+  color:#fff;
+}
+
+.cart{
+  background:#fce4ec;
+  color:#ad315d;
+}
+
+.cart-box{
+  background:#fff5f8;
+  padding:18px;
+  border-radius:15px;
+  border:1px solid #f4c4d3;
+}
+
+.cart-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px solid #f1d4dd;
+}
+
+.total{
+  margin-top:15px;
+  font-size:20px;
+  font-weight:bold;
+  color:#c23868;
+}
+
+.checkout{
+  display:none;
+}
+
+.checkout.show{
+  display:block;
+}
+
+.checkout-form{
+  display:grid;
+  gap:12px;
+}
+
+.checkout-form input,
+.checkout-form select{
+  padding:13px;
+  border:1px solid #e7b7c8;
+  border-radius:10px;
+}
+
+.status-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.status-table th,
+.status-table td{
+  border:1px solid #f0cad6;
+  padding:12px;
+  text-align:left;
+}
+
+.status-table th{
+  background:#fce4ec;
+  color:#a82f58;
+}
+
+.status{
+  padding:6px 10px;
+  border-radius:15px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.belum{
+  background:#fff0c7;
+  color:#946b00;
+}
+
+.proses{
+  background:#dceeff;
+  color:#2873a7;
+}
+
+.kirim{
+  background:#e8ddff;
+  color:#7141a6;
+}
+
+.selesai{
+  background:#d9f8e2;
+  color:#24723c;
+}
+
+#toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:#ec407a;
+  color:#fff;
+  padding:15px 20px;
+  border-radius:12px;
+  display:none;
+  z-index:999;
+  box-shadow:0 5px 20px rgba(0,0,0,.2);
+}
+
+footer{
+  text-align:center;
+  padding:25px;
+  background:#fce4ec;
+  color:#875265;
+  margin-top:30px;
+}
+
+@media(max-width:600px){
+  header h1{
+    font-size:22px;
+  }
+
+  nav{
+    overflow-x:auto;
+    justify-content:flex-start;
+  }
+
+  nav button{
+    white-space:nowrap;
+  }
+
+  .section{
+    padding:18px;
+  }
+
+  .product-grid{
+    grid-template-columns:1fr;
+  }
+
+  .status-table{
+    font-size:12px;
+  }
+}
+</style>
 </head>
+
 <body>
 
-<div class="header"><h1>GadgetStore Pro - Management & Transaction</h1></div>
+<header>
+  <h1>GadgetStore Management System</h1>
+  <p>Platform E-Commerce Gadget Modern & Interaktif</p>
+</header>
 
-<div class="wrapper">
-    <!-- Panel Admin -->
-    <div class="admin-section">
-        <h3>Panel Admin</h3>
-        <input type="text" id="pName" placeholder="Nama Produk" style="width:100%; margin-bottom:10px;"><br>
-        <textarea id="pDesc" placeholder="Deskripsi" style="width:100%; margin-bottom:10px;"></textarea><br>
-        <button onclick="alert('Produk Disimpan!')">Simpan Produk</button>
-        <hr>
-        <h4>Status Pesanan:</h4>
-        <select id="statusOrder">
-            <option>Belum Dibayar</option>
-            <option>Diproses</option>
-            <option>Dikirim</option>
-            <option>Selesai</option>
-        </select>
-    </div>
+<nav>
+  <button onclick="scrollToSection('admin')">👨‍💼 Admin</button>
+  <button onclick="scrollToSection('produk')">📱 Produk</button>
+  <button onclick="scrollToSection('keranjang')">🛒 Keranjang</button>
+  <button onclick="scrollToSection('checkout')">💳 Checkout</button>
+  <button onclick="scrollToSection('status')">📦 Status</button>
+</nav>
 
-    <!-- Panel Katalog & Checkout -->
-    <div class="shop-section">
-        <div class="product-grid" id="catalog">
-            <!-- Contoh 1 Produk (Ulangi untuk 6 produk) -->
-            <div class="product-item">
-                <img src="https://via.placeholder.com/150/ffb6c1/ffffff?text=Gadget">
-                <h4>Smartphone Premium</h4>
-                <p>Harga: Rp 12.000.000</p>
-                <video controls width="100%"><source src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-                <button onclick="addToCart('Smartphone Premium', 12000000)">Tambah ke Keranjang</button>
-            </div>
-            <!-- (Tambahkan produk lainnya dengan cara yang sama) -->
+<div class="container">
+
+<section class="section" id="admin">
+  <h2>👨‍💼 Panel Administrator</h2>
+
+  <form class="admin-form" onsubmit="tambahProduk(event)">
+
+    <input
+      type="text"
+      id="namaProduk"
+      placeholder="Nama Produk"
+      required
+    >
+
+    <textarea
+      id="deskripsiProduk"
+      placeholder="Deskripsi & spesifikasi produk"
+      required
+    ></textarea>
+
+    <input
+      type="number"
+      id="hargaProduk"
+      placeholder="Harga Produk"
+      required
+    >
+
+    <input
+      type="url"
+      id="gambarProduk"
+      placeholder="URL Gambar Produk"
+      required
+    >
+
+    <input
+      type="url"
+      id="videoProduk"
+      placeholder="URL Video Produk"
+      required
+    >
+
+    <button class="btn btn-pink">
+      Simpan Produk ke Database
+    </button>
+
+  </form>
+</section>
+
+<section class="section" id="produk">
+  <h2>🛍️ Katalog Produk</h2>
+
+  <div class="product-grid" id="productGrid">
+
+    <div class="product">
+
+      <a href="https://www.apple.com/iphone/" target="_blank">
+        <img
+          class="product-img"
+          src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=800&q=80"
+          alt="Smartphone Premium"
+        >
+      </a>
+
+      <div class="product-content">
+
+        <h3>Smartphone Premium X</h3>
+
+        <div class="price">
+          Rp 12.000.000
         </div>
 
-        <div class="checkout-area">
-            <h3>Checkout Sekarang</h3>
-            <div id="cartList">Keranjang kosong</div>
-            <h4 id="totalPrice">Total: Rp 0</h4>
-            <button onclick="checkoutNow()" style="background: #2a9d8f;">PROSES PEMBAYARAN</button>
+        <p class="desc">
+          Layar AMOLED 120Hz, RAM 12GB,
+          storage 256GB dan kamera 50MP.
+        </p>
+
+        <video controls>
+          <source
+            src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+            type="video/mp4"
+          >
+        </video>
+
+        <div class="actions">
+
+          <a
+            class="buy"
+            href="#checkout"
+            onclick="beliSekarang('Smartphone Premium X',12000000)"
+          >
+            Beli Sekarang
+          </a>
+
+          <button
+            class="cart"
+            onclick="tambahKeranjang('Smartphone Premium X',12000000)"
+          >
+            🛒 Keranjang
+          </button>
+
         </div>
+      </div>
     </div>
+
+
+    <div class="product">
+
+      <a href="https://www.apple.com/macbook-air/" target="_blank">
+        <img
+          class="product-img"
+          src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=80"
+          alt="Laptop Ultra"
+        >
+      </a>
+
+      <div class="product-content">
+
+        <h3>Laptop Ultra Pro</h3>
+
+        <div class="price">
+          Rp 18.500.000
+        </div>
+
+        <p class="desc">
+          RAM 16GB, SSD 512GB, layar 14 inci
+          cocok untuk desain dan coding.
+        </p>
+
+        <video controls>
+          <source
+            src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+            type="video/mp4"
+          >
+        </video>
+
+        <div class="actions">
+
+          <a
+            class="buy"
+            href="#checkout"
+            onclick="beliSekarang('Laptop Ultra Pro',18500000)"
+          >
+            Beli Sekarang
+          </a>
+
+          <button
+            class="cart"
+            onclick="tambahKeranjang('Laptop Ultra Pro',18500000)"
+          >
+            🛒 Keranjang
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="product">
+
+      <a href="#" onclick="detailProduk('Tablet Smart 12')">
+        <img
+          class="product-img"
+          src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=800&q=80"
+          alt="Tablet Smart"
+        >
+      </a>
+
+      <div class="product-content">
+
+        <h3>Tablet Smart 12</h3>
+
+        <div class="price">
+          Rp 7.500.000
+        </div>
+
+        <p class="desc">
+          Layar 12 inci, RAM 8GB,
+          storage 256GB dan baterai tahan lama.
+        </p>
+
+        <video controls>
+          <source
+            src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+            type="video/mp4"
+          >
+        </video>
+
+        <div class="actions">
+
+          <a
+            class="buy"
+            href="#checkout"
+            onclick="beliSekarang('Tablet Smart 12',7500000)"
+          >
+            Beli Sekarang
+          </a>
+
+          <button
+            class="cart"
+            onclick="tambahKeranjang('Tablet Smart 12',7500000)"
+          >
+            🛒 Keranjang
+          </button>
+
+        </div>
+      </div>
+    </div>
+<div class="product">
+
+      <a href="#" onclick="detailProduk('Smartwatch Pro')">
+        <img
+          class="product-img"
+          src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80"
+          alt="Smartwatch"
+        >
+      </a>
+
+      <div class="product-content">
+
+        <h3>Smartwatch Pro</h3>
+
+        <div class="price">
+          Rp 2.800.000
+        </div>
+
+        <p class="desc">
+          AMOLED display, monitoring aktivitas,
+          Bluetooth dan tahan air.
+        </p>
+
+        <video controls>
+          <source
+            src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+            type="video/mp4"
+          >
+        </video>
+
+        <div class="actions">
+
+          <a
+            class="buy"
+            href="#checkout"
+            onclick="beliSekarang('Smartwatch Pro',2800000)"
+          >
+            Beli Sekarang
+          </a>
+
+          <button
+            class="cart"
+            onclick="tambahKeranjang('Smartwatch Pro',2800000)"
+          >
+            🛒 Keranjang
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="product">
+
+      <a href="#" onclick="detailProduk('Wireless Headphone')">
+        <img
+          class="product-img"
+          src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80"
+          alt="Headphone"
+        >
+      </a>
+
+      <div class="product-content">
+
+        <h3>Wireless Headphone</h3>
+
+        <div class="price">
+          Rp 1.750.000
+        </div>
+
+        <p class="desc">
+          Noise cancelling, Bluetooth 5.3,
+          baterai hingga 30 jam.
+        </p>
+
+        <video controls>
+          <source
+            src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+            type="video/mp4"
+          >
+        </video>
+
+        <div class="actions">
+
+          <a
+            class="buy"
+            href="#checkout"
+            onclick="beliSekarang('Wireless Headphone',1750000)"
+          >
+            Beli Sekarang
+          </a>
+
+          <button
+            class="cart"
+            onclick="tambahKeranjang('Wireless Headphone',1750000)"
+          >
+            🛒 Keranjang
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="product">
+
+      <a href="#" onclick="detailProduk('Gaming Phone')">
+        <img
+          class="product-img"
+          src="https://images.unsplash.com/photo-1592286927505-2fd5e9f2f2e1?auto=format&fit=crop&w=800&q=80"
+          alt="Gaming Phone"
+        >
+      </a>
+
+      <div class="product-content">
+
+        <h3>Gaming Phone Ultra</h3>
+
+        <div class="price">
+          Rp 10.500.000
+        </div>
+
+        <p class="desc">
+          Refresh rate 165Hz, RAM 16GB,
+          chipset gaming dan storage 512GB.
+        </p>
+
+        <video controls>
+          <source
+            src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+            type="video/mp4"
+          >
+        </video>
+
+        <div class="actions">
+
+          <a
+            class="buy"
+            href="#checkout"
+            onclick="beliSekarang('Gaming Phone Ultra',10500000)"
+          >
+            Beli Sekarang
+          </a>
+
+          <button
+            class="cart"
+            onclick="tambahKeranjang('Gaming Phone Ultra',10500000)"
+          >
+            🛒 Keranjang
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="section" id="keranjang">
+
+  <h2>🛒 Keranjang Belanja</h2>
+
+  <div class="cart-box">
+
+    <div id="cartList">
+      <p>Keranjang masih kosong.</p>
+    </div>
+
+    <div class="total">
+      Total:
+      <span id="cartTotal">Rp 0</span>
+    </div>
+
+    <br>
+
+    <button
+      class="btn btn-pink"
+      onclick="bukaCheckout()"
+    >
+      Lanjut ke Checkout
+    </button>
+
+  </div>
+</section>
+
+
+<section class="section checkout" id="checkout">
+
+  <h2>💳 Checkout Pesanan</h2>
+
+  <div class="checkout-form">
+
+    <input
+      type="text"
+      id="namaPembeli"
+      placeholder="Nama Pembeli"
+    >
+
+    <input
+      type="text"
+      id="alamat"
+      placeholder="Alamat Pengiriman"
+    >
+
+    <select id="pembayaran">
+
+      <option value="">
+        Pilih Metode Pembayaran
+      </option>
+
+      <option>Transfer Bank</option>
+      <option>E-Wallet</option>
+      <option>COD</option>
+
+    </select>
+
+    <button
+      class="btn btn-pink"
+      onclick="prosesCheckout()"
+    >
+      Konfirmasi & Bayar
+    </button>
+
+  </div>
+</section>
+
+
+<section class="section" id="status">
+
+  <h2>📦 Status Pesanan</h2>
+
+  <table class="status-table">
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Produk</th>
+        <th>Total</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody id="statusList">
+
+      <tr>
+
+        <td>#GS001</td>
+
+        <td>Smartphone Premium X</td>
+
+        <td>Rp 12.000.000</td>
+
+        <td>
+          <span class="status proses">
+            Pesanan Diproses
+          </span>
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+</section>
+
 </div>
 
-<script>
-    let cart = [];
-    function addToCart(name, price) {
-        cart.push({name, price});
-        let list = "";
-        let total = 0;
-        cart.forEach(item => {
-            list += item.name + " - Rp " + item.price.toLocaleString() + "<br>";
-            total += item.price;
-        });
-        document.getElementById('cartList').innerHTML = list;
-        document.getElementById('totalPrice').innerHTML = "Total: Rp " + total.toLocaleString();
-    }
 
-    function checkoutNow() {
-        if(cart.length === 0) {
-            alert("Keranjang kosong!");
-        } else {
-            let status = document.getElementById('statusOrder').value;
-            alert("Checkout berhasil! Status pesanan Anda: " + status);
-            cart = [];
-            document.getElementById('cartList').innerHTML = "Keranjang kosong";
-            document.getElementById('totalPrice').innerHTML = "Total: Rp 0";
-        }
+<footer>
+  <p>
+    © 2026 GadgetStore Pro —
+    Gadget Terbaik untuk Semua
+  </p>
+</footer>
+
+
+<div id="toast"></div>
+
+
+<script>
+
+let cart = [];
+let checkoutProduct = null;
+
+
+function rupiah(angka){
+
+  return new Intl.NumberFormat(
+    "id-ID",
+    {
+      style:"currency",
+      currency:"IDR",
+      maximumFractionDigits:0
     }
+  ).format(angka);
+
+}
+
+
+function toast(pesan){
+
+  const box =
+    document.getElementById("toast");
+
+  box.innerText = pesan;
+  box.style.display = "block";
+
+  setTimeout(function(){
+    box.style.display = "none";
+  },2500);
+
+}
+
+
+function scrollToSection(id){
+
+  document
+    .getElementById(id)
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+function tambahKeranjang(nama,harga){
+
+  const produk =
+    cart.find(item => item.nama === nama);
+
+  if(produk){
+    produk.qty++;
+  }else{
+    cart.push({
+      nama:nama,
+      harga:harga,
+      qty:1
+    });
+  }
+
+  tampilkanKeranjang();
+
+  toast("Produk berhasil masuk keranjang 🛒");
+
+}
+
+
+function tampilkanKeranjang(){
+
+  const list =
+    document.getElementById("cartList");
+
+  const total =
+    document.getElementById("cartTotal");
+
+  if(cart.length === 0){
+
+    list.innerHTML =
+      "<p>Keranjang masih kosong.</p>";
+
+    total.innerText = "Rp 0";
+
+    return;
+  }
+
+  let html = "";
+  let jumlah = 0;
+
+  cart.forEach(function(item,index){
+
+    const subtotal =
+      item.harga * item.qty;
+
+    jumlah += subtotal;
+
+    html += `
+      <div class="cart-item">
+
+        <div>
+          <b>${item.nama}</b>
+          <br>
+          ${rupiah(item.harga)}
+          × ${item.qty}
+        </div>
+
+        <button
+          class="btn btn-light"
+          onclick="hapusKeranjang(${index})"
+        >
+          Hapus
+        </button>
+
+      </div>
+    `;
+
+  });
+
+  list.innerHTML = html;
+  total.innerText = rupiah(jumlah);
+
+}
+
+
+function hapusKeranjang(index){
+
+  cart.splice(index,1);
+
+  tampilkanKeranjang();
+
+  toast("Produk dihapus dari keranjang");
+
+}
+
+
+function beliSekarang(nama,harga){
+
+  checkoutProduct = {
+    nama:nama,
+    harga:harga
+  };
+
+  document
+    .getElementById("checkout")
+    .classList.add("show");
+
+  setTimeout(function(){
+
+    document
+      .getElementById("checkout")
+      .scrollIntoView({
+        behavior:"smooth"
+      });
+
+  },100);
+
+}
+
+
+function bukaCheckout(){
+
+  if(cart.length === 0){
+
+    toast("Keranjang masih kosong!");
+
+    return;
+  }
+
+  checkoutProduct = null;
+
+  document
+    .getElementById("checkout")
+    .classList.add("show");
+
+  document
+    .getElementById("checkout")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+function prosesCheckout(){
+
+  const nama =
+    document.getElementById("namaPembeli").value;
+
+  const alamat =
+    document.getElementById("alamat").value;
+
+  const pembayaran =
+    document.getElementById("pembayaran").value;
+
+
+  if(
+    nama === "" ||
+    alamat === "" ||
+    pembayaran === ""
+  ){
+
+    toast(
+      "Lengkapi data checkout terlebih dahulu!"
+    );
+
+    return;
+  }
+
+
+  let produkPesanan = "";
+  let total = 0;
+
+
+  if(checkoutProduct){
+
+    produkPesanan =
+      checkoutProduct.nama;
+
+    total =
+      checkoutProduct.harga;
+
+  }else{
+
+    produkPesanan =
+      cart.map(
+        item => item.nama
+      ).join(", ");
+
+    cart.forEach(function(item){
+
+      total +=
+        item.harga * item.qty;
+
+    });
+
+  }
+
+
+  const id =
+    "#GS" +
+    Math.floor(
+      1000 + Math.random() * 9000
+    );
+
+
+  const statusList =
+    document.getElementById("statusList");
+
+  const row =
+    document.createElement("tr");
+
+
+  row.innerHTML = `
+
+    <td>${id}</td>
+
+    <td>${produkPesanan}</td>
+
+    <td>${rupiah(total)}</td>
+
+    <td>
+      <span class="status belum">
+        Pesanan Belum Dibayar
+      </span>
+    </td>
+
+  `;
+
+
+  statusList.appendChild(row);
+
+  cart = [];
+
+  tampilkanKeranjang();
+
+  toast(
+    "Pesanan berhasil dibuat! 🎉"
+  );
+
+
+  document
+    .getElementById("status")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+function detailProduk(nama){
+
+  toast(
+    "Membuka detail produk: " + nama
+  );
+
+}
+
+
+function tambahProduk(event){
+
+  event.preventDefault();
+
+
+  const nama =
+    document.getElementById("namaProduk").value;
+
+  const deskripsi =
+    document.getElementById("deskripsiProduk").value;
+
+  const harga =
+    Number(
+      document.getElementById("hargaProduk").value
+    );
+
+  const gambar =
+    document.getElementById("gambarProduk").value;
+
+  const video =
+    document.getElementById("videoProduk").value;
+
+
+  if(
+    !nama ||
+    !deskripsi ||
+    !harga ||
+    !gambar ||
+    !video
+  ){
+
+    toast("Semua data wajib diisi!");
+
+    return;
+  }
+
+
+  const card =
+    document.createElement("div");
+
+  card.className = "product";
+
+
+  card.innerHTML = `
+
+    <a href="${gambar}" target="_blank">
+
+      <img
+        class="product-img"
+        src="${gambar}"
+        alt="${nama}"
+      >
+
+    </a>
+
+    <div class="product-content">
+
+      <h3>${nama}</h3>
+
+      <div class="price">
+        ${rupiah(harga)}
+      </div>
+
+      <p class="desc">
+        ${deskripsi}
+      </p>
+
+      <video controls>
+
+        <source
+          src="${video}"
+          type="video/mp4"
+        >
+
+      </video>
+
+      <div class="actions">
+
+        <a
+          class="buy"
+          href="#checkout"
+          onclick="beliSekarang('${nama}',${harga})"
+        >
+          Beli Sekarang
+        </a>
+
+        <button
+          class="cart"
+          onclick="tambahKeranjang('${nama}',${harga})"
+        >
+          🛒 Keranjang
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  document
+    .getElementById("productGrid")
+    .appendChild(card);
+
+
+  document
+    .querySelector(".admin-form")
+    .reset();
+
+
+  toast(
+    "Produk berhasil ditambahkan! ✅"
+  );
+
+
+  scrollToSection("produk");
+
+}
+
 </script>
 
 </body>
