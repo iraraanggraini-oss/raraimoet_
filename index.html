@@ -7,13 +7,13 @@
     <style>
         :root {
             --primary-pink: #ffb6c1;
-            --light-pink: #fff0f3;
-            --dark-pink: #d87093;
+            --soft-pink-bg: #fff0f3;
             --accent-pink: #ff69b4;
+            --dark-pink: #d81b60;
             --text-color: #333333;
-            --bg-color: #fcf8f9;
+            --bg-color: #f9f9f9;
             --white: #ffffff;
-            --shadow: 0 4px 15px rgba(216, 112, 147, 0.15);
+            --shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
             --border-radius: 12px;
         }
 
@@ -32,46 +32,52 @@
         }
 
         header {
-            background: linear-gradient(135deg, var(--primary-pink), var(--accent-pink));
+            background: linear-gradient(135deg, var(--accent-pink), var(--primary-pink));
             color: var(--white);
-            padding: 25px;
             text-align: center;
+            padding: 30px;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             margin-bottom: 30px;
         }
 
         header h1 {
-            font-size: 2rem;
-            letter-spacing: 1px;
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
         }
 
-        .main-container {
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
             display: grid;
             grid-template-columns: 1fr 2fr;
             gap: 30px;
         }
 
-        @media (max-width: 968px) {
-            .main-container {
+        @media (max-width: 1024px) {
+            .container {
                 grid-template-columns: 1fr;
             }
         }
 
-        .panel {
+        .section-box {
             background: var(--white);
-            padding: 25px;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
+            padding: 25px;
             border: 1px solid #ffe4e1;
         }
 
-        .panel h2 {
-            margin-bottom: 20px;
+        .section-box h2 {
             color: var(--dark-pink);
-            font-size: 1.5rem;
-            border-bottom: 2px solid var(--light-pink);
+            margin-bottom: 20px;
             padding-bottom: 10px;
+            border-bottom: 2px solid var(--soft-pink-bg);
+            font-size: 1.5rem;
         }
 
         /* Form Admin */
@@ -87,11 +93,10 @@
         }
 
         .form-group input, 
-        .form-group textarea, 
-        .form-group select {
+        .form-group textarea {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #dcdcdc;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
             border-radius: 8px;
             font-size: 0.95rem;
             outline: none;
@@ -99,33 +104,62 @@
         }
 
         .form-group input:focus, 
-        .form-group textarea:focus, 
-        .form-group select:focus {
+        .form-group textarea:focus {
             border-color: var(--accent-pink);
         }
 
-        .btn-primary {
-            background-color: var(--dark-pink);
+        button, .btn-action {
+            background-color: var(--accent-pink);
             color: var(--white);
             border: none;
-            padding: 12px 20px;
+            padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
-            font-weight: bold;
+            font-weight: 600;
             width: 100%;
-            transition: background 0.3s, transform 0.1s;
+            transition: background-color 0.3s, transform 0.1s;
         }
 
-        .btn-primary:hover {
-            background-color: #c75b80;
+        button:hover, .btn-action:hover {
+            background-color: var(--dark-pink);
         }
 
-        .btn-primary:active {
+        button:active {
             transform: scale(0.98);
         }
 
-        /* Katalog Produk */
+        /* Keranjang & Status Panel */
+        .cart-panel, .status-panel {
+            margin-top: 25px;
+            background: var(--soft-pink-bg);
+            padding: 15px;
+            border-radius: var(--border-radius);
+        }
+
+        .cart-items {
+            list-style: none;
+            max-height: 150px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        .cart-items li {
+            padding: 5px 0;
+            border-bottom: 1px dashed #ffcccb;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .cart-total {
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: right;
+            color: var(--dark-pink);
+        }
+
+        /* Katalog Grid */
         .catalog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -133,14 +167,20 @@
         }
 
         .product-card {
-            background: var(--light-pink);
+            background: var(--white);
+            border: 1px solid #ffe4e1;
             border-radius: var(--border-radius);
             padding: 15px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            border: 1px solid #ffccd5;
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.4);
         }
 
         .product-card img {
@@ -151,16 +191,17 @@
             margin-bottom: 10px;
         }
 
-        .product-card h3 {
-            font-size: 1.2rem;
-            color: var(--dark-pink);
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
             margin-bottom: 5px;
         }
 
         .product-price {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #2c3e50;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--dark-pink);
             margin-bottom: 8px;
         }
 
@@ -168,71 +209,53 @@
             font-size: 0.85rem;
             color: #666;
             margin-bottom: 10px;
+            flex-grow: 1;
         }
 
         .product-video {
             width: 100%;
-            height: 140px;
+            height: 120px;
             border-radius: 6px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             background: #000;
         }
 
-        .btn-buy {
-            display: block;
-            text-align: center;
-            background-color: var(--accent-pink);
-            color: var(--white);
-            padding: 10px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-        .btn-buy:hover {
-            background-color: var(--dark-pink);
-        }
-
-        /* Keranjang & Status Pesanan Section */
-        .cart-section {
-            margin-top: 30px;
-            background: var(--white);
-            padding: 25px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            border: 1px solid #ffe4e1;
-        }
-
-        .cart-items {
-            list-style: none;
-            margin-bottom: 15px;
-            max-height: 150px;
-            overflow-y: auto;
-            border: 1px solid #eee;
-            padding: 10px;
-            border-radius: 8px;
-        }
-
-        .cart-items li {
-            padding: 5px 0;
-            border-bottom: 1px dashed #ddd;
-            font-size: 0.9rem;
+        .card-actions {
             display: flex;
-            justify-content: space-between;
+            gap: 8px;
         }
 
-        .status-box {
-            background: #fff5f8;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 5px solid var(--accent-pink);
-            margin-top: 15px;
+        .btn-buy {
+            background-color: var(--dark-pink);
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            flex: 1;
+            display: inline-block;
         }
 
-        .status-box p {
-            font-weight: 600;
-            color: var(--dark-pink);
+        .btn-cart {
+            background-color: var(--accent-pink);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            background: #ffeeba;
+            color: #856404;
         }
     </style>
 </head>
@@ -240,237 +263,275 @@
 
     <header>
         <h1>GadgetStore Management System</h1>
-        <p>Platform E-Commerce Interaktif & Terintegrasi</p>
+        <p>Platform Terpadu Manajemen Inventaris & Belanja Smartphone Eksklusif</p>
     </header>
 
-    <div class="main-container">
+    <div class="container">
         <!-- PANEL ADMINISTRATOR -->
-        <section class="panel">
+        <div class="section-box">
             <h2>Panel Administrator</h2>
-            <form id="productForm">
+            <form id="productForm" onsubmit="handleAddProduct(event)">
                 <div class="form-group">
                     <label for="prodName">Nama Produk</label>
-                    <input type="text" id="prodName" placeholder="Contoh: iPhone 17 Pro" required>
+                    <input type="text" id="prodName" placeholder="Contoh: iPhone 15 Pro Max" required>
                 </div>
                 <div class="form-group">
                     <label for="prodPrice">Harga Produk (Rp)</label>
-                    <input type="text" id="prodPrice" placeholder="Contoh: 15.000.000" required>
+                    <input type="number" id="prodPrice" placeholder="Contoh: 19000000" required>
                 </div>
                 <div class="form-group">
-                    <label for="prodDesc">Deskripsi Produk</label>
-                    <textarea id="prodDesc" rows="3" placeholder="Spesifikasi utama produk..." required></textarea>
+                    <label for="prodDesc">Deskripsi & Spesifikasi</label>
+                    <textarea id="prodDesc" rows="3" placeholder="Layar 6.7 inci, A17 Pro, RAM 8GB..." required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="prodImage">URL Gambar Produk</label>
-                    <input type="text" id="prodImage" placeholder="https://example.com/image.jpg" required>
+                    <label for="prodImg">URL Gambar Produk</label>
+                    <input type="url" id="prodImg" placeholder="https://example.com/image.jpg" required>
                 </div>
                 <div class="form-group">
-                    <label for="prodVideo">URL Video Demo (MP4)</label>
-                    <input type="text" id="prodVideo" placeholder="https://www.w3schools.com/html/mov_bbb.mp4" required>
+                    <label for="prodVid">URL Video Demo (MP4)</label>
+                    <input type="url" id="prodVid" placeholder="https://www.w3schools.com/html/mov_bbb.mp4" required>
                 </div>
-                <button type="submit" class="btn-primary">Simpan Produk ke Database</button>
+                <button type="submit">Simpan Produk ke Database</button>
             </form>
-        </section>
 
-        <!-- PANEL PEMBELI (KATALOG & TRANSAKSI) -->
-        <section class="panel">
-            <h2>Katalog Produk Apple (Ready Stock)</h2>
-            <div class="catalog-grid" id="catalogGrid">
-                <!-- Produk 1: iPhone 15 -->
-                <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500" alt="iPhone 15">
-                    <h3>iPhone 15</h3>
-                    <div class="product-price">Rp 12.000.000</div>
-                    <div class="product-desc">Layar Super Retina XDR 6.1", Chip A16 Bionic, Kamera Utama 48MP.</div>
-                    <video class="product-video" controls>
-                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                        Browser Anda tidak mendukung tag video.
-                    </video>
-                    <a href="#" class="btn-buy" onclick="addToCart('iPhone 15', 12000000)">Beli Sekarang</a>
-                </div>
-
-                <!-- Produk 2: iPhone 16 -->
-                <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500" alt="iPhone 16">
-                    <h3>iPhone 16</h3>
-                    <div class="product-price">Rp 15.000.000</div>
-                    <div class="product-desc">Apple Intelligence, Tombol Camera Control, Chip A18, Layar OLED 6.1".</div>
-                    <video class="product-video" controls>
-                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                        Browser Anda tidak mendukung tag video.
-                    </video>
-                    <a href="#" class="btn-buy" onclick="addToCart('iPhone 16', 15000000)">Beli Sekarang</a>
-                </div>
-
-                <!-- Produk 3: iPad Air -->
-                <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=500" alt="iPad Air">
-                    <h3>iPad Air</h3>
-                    <div class="product-price">Rp 10.500.000</div>
-                    <div class="product-desc">Ditenagai Chip M2, Layar Liquid Retina yang Luas, Kompatibel Apple Pencil Pro.</div>
-                    <video class="product-video" controls>
-                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                        Browser Anda tidak mendukung tag video.
-                    </video>
-                    <a href="#" class="btn-buy" onclick="addToCart('iPad Air', 10500000)">Beli Sekarang</a>
-                </div>
-
-                <!-- Produk 4: iPad Pro -->
-                <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1561154464-82e9adf32764?w=500" alt="iPad Pro">
-                    <h3>iPad Pro</h3>
-                    <div class="product-price">Rp 18.000.000</div>
-                    <div class="product-desc">Layar Ultra Retina XDR (OLED), Chip M4 Super Cepat, Desain Sangat Tipis.</div>
-                    <video class="product-video" controls>
-                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                        Browser Anda tidak mendukung tag video.
-                    </video>
-                    <a href="#" class="btn-buy" onclick="addToCart('iPad Pro', 18000000)">Beli Sekarang</a>
-                </div>
-
-                <!-- Produk 5: MacBook Air M2 -->
-                <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500" alt="MacBook Air M2">
-                    <h3>MacBook Air M2</h3>
-                    <div class="product-price">Rp 17.000.000</div>
-                    <div class="product-desc">Performa luar biasa dengan Chip M2, Ketahanan Baterai hingga 18 Jam, Layar 13.6".</div>
-                    <video class="product-video" controls>
-                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                        Browser Anda tidak mendukung tag video.
-                    </video>
-                    <a href="#" class="btn-buy" onclick="addToCart('MacBook Air M2', 17000000)">Beli Sekarang</a>
-                </div>
-
-                <!-- Produk 6: MacBook Air M3 -->
-                <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=500" alt="MacBook Air M3">
-                    <h3>MacBook Air M3</h3>
-                    <div class="product-price">Rp 19.500.000</div>
-                    <div class="product-desc">Chip M3 yang Kuat, Mendukung Dua Layar Eksternal, Wi-Fi 6E Lebih Cepat.</div>
-                    <video class="product-video" controls>
-                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                        Browser Anda tidak mendukung tag video.
-                    </video>
-                    <a href="#" class="btn-buy" onclick="addToCart('MacBook Air M3', 19500000)">Beli Sekarang</a>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- PANEL KERANJANG & STATUS PESANAN -->
-    <div class="cart-section">
-        <h2>Keranjang Belanja & Status Transaksi</h2>
-        <ul class="cart-items" id="cartItems">
-            <li><span>Keranjang masih kosong</span><span>-</span></li>
-        </ul>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <strong>Total: <span id="cartTotal">Rp 0</span></strong>
-            <div>
-                <button class="btn-primary" style="padding: 8px 15px; display: inline-block; width: auto;" onclick="checkout()">Checkout Sekarang</button>
-                <button class="btn-primary" style="padding: 8px 15px; display: inline-block; width: auto; background-color: #ff69b4; margin-left: 5px;" onclick="clearCart()">Kosongkan Keranjang</button>
+            <!-- Status Pesanan untuk Penjual/Admin -->
+            <div class="status-panel">
+                <h3>Monitor Status Pesanan (Admin)</h3>
+                <p style="font-size: 0.85rem; margin: 5px 0;">Pesanan Terbaru Pelanggan:</p>
+                <div id="adminOrderStatus" class="status-badge">Belum ada transaksi</div>
             </div>
         </div>
 
-        <div class="status-box">
-            <p>Status Pesanan Terkini: <span id="orderStatus" style="color: #333; font-weight: normal;">Belum ada pesanan aktif</span></p>
-            <div style="margin-top: 10px;">
-                <label for="statusSelect" style="font-size: 0.85rem; font-weight: bold;">Ubah Status (Simulasi Admin/Sistem):</label>
-                <select id="statusSelect" onchange="updateOrderStatus(this.value)" style="margin-top: 5px; padding: 5px; border-radius: 5px; border: 1px solid #d87093;">
-                    <option value="Pesanan belum dibayar">Pesanan Belum Dibayar</option>
-                    <option value="Pesanan diproses">Pesanan Diproses</option>
-                    <option value="Pesanan dikirim">Pesanan Dikirim</option>
-                    <option value="Pesanan selesai">Pesanan Selesai</option>
-                </select>
+        <!-- PANEL PEMBELI (CUSTOMER) -->
+        <div class="section-box">
+            <h2>Panel Pembeli (Katalog Gadget)</h2>
+            
+            <!-- Katalog Grid (6 Produk Android & iPhone) -->
+            <div class="catalog-grid" id="catalogGrid">
+                <!-- Produk 1 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=500&q=80" alt="iPhone 15 Pro">
+                    <div class="product-title">iPhone 15 Pro</div>
+                    <div class="product-price">Rp 18.500.000</div>
+                    <div class="product-desc">Layar Super Retina XDR 6.1", Chip A17 Pro, Kamera 48MP, RAM 8GB.</div>
+                    <video class="product-video" controls>
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                        Browser Anda tidak Mendukung Tag Video.
+                    </video>
+                    <div class="card-actions">
+                        <a href="#checkout" class="btn-buy" onclick="checkoutDirect('iPhone 15 Pro', 18500000)">Beli Sekarang</a>
+                        <button class="btn-cart" onclick="addToCart('iPhone 15 Pro', 18500000)">🛒</button>
+                    </div>
+                </div>
+
+                <!-- Produk 2 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=500&q=80" alt="Samsung Galaxy S24 Ultra">
+                    <div class="product-title">Samsung Galaxy S24 Ultra</div>
+                    <div class="product-price">Rp 20.999.000</div>
+                    <div class="product-desc">Layar Dynamic AMOLED 2X 120Hz, Snapdragon 8 Gen 3, S-Pen Included.</div>
+                    <video class="product-video" controls>
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    </video>
+                    <div class="card-actions">
+                        <a href="#checkout" class="btn-buy" onclick="checkoutDirect('Samsung Galaxy S24 Ultra', 20999000)">Beli Sekarang</a>
+                        <button class="btn-cart" onclick="addToCart('Samsung Galaxy S24 Ultra', 20999000)">🛒</button>
+                    </div>
+                </div>
+
+                <!-- Produk 3 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=500&q=80" alt="Xiaomi 14 Pro">
+                    <div class="product-title">Xiaomi 14 Pro</div>
+                    <div class="product-price">Rp 11.999.000</div>
+                    <div class="product-desc">Leica Optics, Snapdragon 8 Gen 3, Baterai 4880 mAh, Fast Charging 120W.</div>
+                    <video class="product-video" controls>
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    </video>
+                    <div class="card-actions">
+                        <a href="#checkout" class="btn-buy" onclick="checkoutDirect('Xiaomi 14 Pro', 11999000)">Beli Sekarang</a>
+                        <button class="btn-cart" onclick="addToCart('Xiaomi 14 Pro', 11999000)">🛒</button>
+                    </div>
+                </div>
+
+                <!-- Produk 4 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=500&q=80" alt="iPhone 14">
+                    <div class="product-title">iPhone 14</div>
+                    <div class="product-price">Rp 13.200.000</div>
+                    <div class="product-desc">Layar 6.1" Super Retina XDR, Chip A15 Bionic, Kamera Ganda Handal.</div>
+                    <video class="product-video" controls>
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    </video>
+                    <div class="card-actions">
+                        <a href="#checkout" class="btn-buy" onclick="checkoutDirect('iPhone 14', 13200000)">Beli Sekarang</a>
+                        <button class="btn-cart" onclick="addToCart('iPhone 14', 13200000)">🛒</button>
+                    </div>
+                </div>
+
+                <!-- Produk 5 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=500&q=80" alt="Google Pixel 8 Pro">
+                    <div class="product-title">Google Pixel 8 Pro</div>
+                    <div class="product-price">Rp 15.500.000</div>
+                    <div class="product-desc">Google Tensor G3, AI Photography Tingkat Lanjut, Layar 120Hz Smooth.</div>
+                    <video class="product-video" controls>
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    </video>
+                    <div class="card-actions">
+                        <a href="#checkout" class="btn-buy" onclick="checkoutDirect('Google Pixel 8 Pro', 15500000)">Beli Sekarang</a>
+                        <button class="btn-cart" onclick="addToCart('Google Pixel 8 Pro', 15500000)">🛒</button>
+                    </div>
+                </div>
+
+                <!-- Produk 6 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=500&q=80" alt="OPPO Find X7 Ultra">
+                    <div class="product-title">OPPO Find X7 Ultra</div>
+                    <div class="product-price">Rp 16.700.000</div>
+                    <div class="product-desc">Dual Periscope Telephoto, Hasselblad Camera for Mobile, RAM 16GB.</div>
+                    <video class="product-video" controls>
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    </video>
+                    <div class="card-actions">
+                        <a href="#checkout" class="btn-buy" onclick="checkoutDirect('OPPO Find X7 Ultra', 16700000)">Beli Sekarang</a>
+                        <button class="btn-cart" onclick="addToCart('OPPO Find X7 Ultra', 16700000)">🛒</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel Keranjang & Checkout -->
+            <div class="cart-panel" id="checkout">
+                <h3>Keranjang Belanja Anda</h3>
+                <ul class="cart-items" id="cartList">
+                    <li style="color: #888; justify-content: center;">Keranjang masih kosong</li>
+                </ul>
+                <div class="cart-total">Total: Rp <span id="cartTotal">0</span></div>
+                <button class="btn-action" onclick="processCheckout()">Checkout & Proses Pesanan</button>
+                
+                <!-- Status Pesanan Pembeli -->
+                <div style="margin-top: 15px;">
+                    <p style="font-size: 0.9srem; font-weight: bold;">Status Pesanan Anda:</p>
+                    <span id="customerOrderStatus" class="status-badge" style="background-color: #f8d7da; color: #721c24;">Belum Ada Transaksi</span>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Array untuk menyimpan data keranjang
         let cart = [];
-        let currentStatus = "Pesanan belum dibayar";
 
-        // Fungsi Tambah ke Keranjang
-        function addToCart(name, price) {
+        // Fungsi Tambah Produk dari Panel Admin
+        function handleAddProduct(event) {
             event.preventDefault();
-            cart.push({ name, price });
-            renderCart();
-            alert(`${name} telah ditambahkan ke keranjang!`);
-        }
-
-        // Fungsi Tampilkan Keranjang
-        function renderCart() {
-            const cartList = document.getElementById('cartItems');
-            const cartTotal = document.getElementById('cartTotal');
             
-            cartList.innerHTML = '';
-            if (cart.length === 0) {
-                cartList.innerHTML = '<li><span>Keranjang masih kosong</span><span>-</span></li>';
-                cartTotal.innerText = 'Rp 0';
-                return;
-            }
-
-            let total = 0;
-            cart.forEach((item, index) => {
-                total += item.price;
-                const li = document.createElement('li');
-                li.innerHTML = `<span>${item.name}</span> <span>Rp ${item.price.toLocaleString('id-ID')}</span>`;
-                cartList.appendChild(li);
-            });
-
-            cartTotal.innerText = `Rp ${total.toLocaleString('id-ID')}`;
-        }
-
-        // Kosongkan Keranjang
-        function clearCart() {
-            cart = [];
-            renderCart();
-        }
-
-        // Proses Checkout
-        function checkout() {
-            if (cart.length === 0) {
-                alert("Keranjang belanja Anda masih kosong!");
-                return;
-            }
-            currentStatus = "Pesanan diproses";
-            document.getElementById('orderStatus').innerText = currentStatus;
-            document.getElementById('statusSelect').value = currentStatus;
-            alert("Checkout berhasil! Pesanan Anda sedang diproses.");
-        }
-
-        // Update Status Pesanan (Bisa dicek penjual/pembeli)
-        function updateOrderStatus(status) {
-            currentStatus = status;
-            document.getElementById('orderStatus').innerText = currentStatus;
-        }
-
-        // Tambah Produk dari Form Admin secara dinamis
-        document.getElementById('productForm').addEventListener('submit', function(e) {
-            e.preventDefault();
             const name = document.getElementById('prodName').value;
-            const price = parseInt(document.getElementById('prodPrice').value.replace(/\./g, '')) || 0;
+            const price = parseInt(document.getElementById('prodPrice').value);
             const desc = document.getElementById('prodDesc').value;
-            const image = document.getElementById('prodImage').value;
-            const video = document.getElementById('prodVideo').value;
+            const img = document.getElementById('prodImg').value;
+            const vid = document.getElementById('prodVid').value;
 
-            const catalogGrid = document.getElementById('catalogGrid');
+            const grid = document.getElementById('catalogGrid');
+            
             const newCard = document.createElement('div');
             newCard.className = 'product-card';
             newCard.innerHTML = `
-                <img src="${image}" alt="${name}">
-                <h3>${name}</h3>
+                <img src="${img}" alt="${name}">
+                <div class="product-title">${name}</div>
                 <div class="product-price">Rp ${price.toLocaleString('id-ID')}</div>
                 <div class="product-desc">${desc}</div>
                 <video class="product-video" controls>
-                    <source src="${video}" type="video/mp4">
-                    Browser Anda tidak mendukung tag video.
+                    <source src="${vid}" type="video/mp4">
+                    Video tidak didukung.
                 </video>
-                <a href="#" class="btn-buy" onclick="addToCart('${name}', ${price})">Beli Sekarang</a>
+                <div class="card-actions">
+                    <a href="#checkout" class="btn-buy" onclick="checkoutDirect('${name}', ${price})">Beli Sekarang</a>
+                    <button class="btn-cart" onclick="addToCart('${name}', ${price})">🛒</button>
+                </div>
             `;
-            catalogGrid.appendChild(newCard);
-            alert("Produk baru berhasil disimpan ke database dan ditampilkan di katalog!");
-            this.reset();
-        });
+            
+            grid.prepend(newCard);
+            alert('Produk baru berhasil disimpan ke database katalog!');
+            document.getElementById('productForm').reset();
+        }
+
+        // Fungsi Tambah ke Keranjang
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCartUI();
+        }
+
+        // Update Tampilan Keranjang
+        function updateCartUI() {
+            const cartList = document.getElementById('cartList');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            cartList.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                cartList.innerHTML = '<li style="color: #888; justify-content: center;">Keranjang masih kosong</li>';
+            } else {
+                cart.forEach((item, index) => {
+                    total += item.price;
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span>${item.name}</span> <span>Rp ${item.price.toLocaleString('id-ID')}</span>`;
+                    cartList.appendChild(li);
+                });
+            }
+            cartTotal.innerText = total.toLocaleString('id-ID');
+        }
+
+        // Fungsi Tombol Beli Sekarang Langsung
+        function checkoutDirect(name, price) {
+            cart = [{ name, price }];
+            updateCartUI();
+            processCheckout();
+        }
+
+        // Simulasi Proses Checkout dan Status Pesanan
+        function processCheckout() {
+            if (cart.length === 0) {
+                alert('Keranjang belanja Anda masih kosong!');
+                return;
+            }
+
+            const statuses = ["Pesanan Diproses", "Pesanan Dikirim", "Pesanan Selesai"];
+            let currentStatusIdx = 0;
+
+            // Set Status Awal
+            updateStatusDisplays("Pesanan Diproses (Menunggu Pembayaran)");
+            alert('Checkout Berhasil! Transaksi Anda sedang diproses.');
+            
+            // Simulasi perubahan status secara otomatis bertahap untuk demo interaktif
+            setTimeout(() => {
+                updateStatusDisplays("Pesanan Dikirim (Kurir dalam perjalanan)");
+            }, 4000);
+
+            setTimeout(() => {
+                updateStatusDisplays("Pesanan Selesai (Diterima Pembeli)");
+            }, 8000);
+
+            cart = [];
+            updateCartUI();
+        }
+
+        // Helper untuk update status di Panel Pembeli & Admin
+        function updateStatusDisplays(statusText) {
+            const custStatus = document.getElementById('customerOrderStatus');
+            const adminStatus = document.getElementById('adminOrderStatus');
+
+            custStatus.innerText = statusText;
+            adminStatus.innerText = statusText;
+
+            custStatus.style.backgroundColor = '#d4edda';
+            custStatus.style.color = '#155724';
+            adminStatus.style.backgroundColor = '#d4edda';
+            adminStatus.style.color = '#155724';
+        }
     </script>
 </body>
 </html>
+
+  
