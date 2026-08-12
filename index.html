@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GadgetStore Management System</title>
+    <title>GadgetStore Management System & Login</title>
     <style>
         :root {
             --primary-pink: #ffb6c1;
@@ -52,14 +52,64 @@
             opacity: 0.9;
         }
 
-        .container {
-            display: grid;
+        /* Halaman Login Container */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 50vh;
+        }
+
+        .login-box {
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #ffe4e1;
+            text-align: center;
+        }
+
+        .login-box h2 {
+            color: var(--dark-pink);
+            margin-bottom: 20px;
+        }
+
+        .tab-login {
+            display: flex;
+            margin-bottom: 20px;
+            background: var(--soft-pink-bg);
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: #666;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-pink);
+            color: white;
+        }
+
+        /* App Container (Dashboard Utama) */
+        .app-container {
+            display: none;
             grid-template-columns: 1fr 2fr;
             gap: 30px;
         }
 
         @media (max-width: 1024px) {
-            .container {
+            .app-container {
                 grid-template-columns: 1fr;
             }
         }
@@ -70,6 +120,7 @@
             box-shadow: var(--shadow);
             padding: 25px;
             border: 1px solid #ffe4e1;
+            position: relative;
         }
 
         .section-box h2 {
@@ -80,9 +131,23 @@
             font-size: 1.5rem;
         }
 
-        /* Form Admin */
+        .logout-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        /* Form & Input */
         .form-group {
             margin-bottom: 15px;
+            text-align: left;
         }
 
         .form-group label {
@@ -125,11 +190,7 @@
             background-color: var(--dark-pink);
         }
 
-        button:active {
-            transform: scale(0.98);
-        }
-
-        /* Keranjang & Status Panel */
+        /* Keranjang & Status */
         .cart-panel, .status-panel {
             margin-top: 25px;
             background: var(--soft-pink-bg);
@@ -175,12 +236,6 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s;
-        }
-
-        .product-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.4);
         }
 
         .product-card img {
@@ -263,12 +318,40 @@
 
     <header>
         <h1>GadgetStore Management System</h1>
-        <p>Platform Terpadu Manajemen Inventaris & Belanja Smartphone Eksklusif</p>
+        <p>Silakan Login Sesuai Hak Akses Anda</p>
     </header>
 
-    <div class="container">
+    <!-- HALAMAN LOGIN (ADMIN / PEMBELI) -->
+    <div id="loginSection" class="login-container">
+        <div class="login-box">
+            <h2 id="loginTitle">Login Administrator</h2>
+            <div class="tab-login">
+                <button class="tab-btn active" id="tabAdmin" onclick="switchLoginRole('admin')">Admin</button>
+                <button class="tab-btn" id="tabCustomer" onclick="switchLoginRole('customer')">Pembeli</button>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="loginUser" placeholder="Masukkan username..." required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPass" placeholder="Masukkan password..." required>
+                </div>
+                <button type="submit" id="loginBtnText">Masuk sebagai Admin</button>
+                <p style="font-size: 0.75rem; color: #888; margin-top: 10px;">
+                    *Info Demo:<br>Admin: <b>admin</b> / <b>admin123</b><br>Pembeli: <b>user</b> / <b>user123</b>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- HALAMAN UTAMA (DASHBOARD SETELAH LOGIN) -->
+    <div class="app-container" id="appContainer">
+        
         <!-- PANEL ADMINISTRATOR -->
-        <div class="section-box">
+        <div class="section-box" id="adminPanelWrapper">
+            <button class="logout-btn" onclick="handleLogout()">Logout</button>
             <h2>Panel Administrator</h2>
             <form id="productForm" onsubmit="handleAddProduct(event)">
                 <div class="form-group">
@@ -281,20 +364,19 @@
                 </div>
                 <div class="form-group">
                     <label for="prodDesc">Deskripsi & Spesifikasi</label>
-                    <textarea id="prodDesc" rows="3" placeholder="Layar 6.7 inci, A17 Pro, RAM 8GB..." required></textarea>
+                    <textarea id="prodDesc" rows="3" placeholder="Layar 6.7 inci, A17 Pro..." required></textarea>
                 </div>
                 <div class="form-group">
                     <label for="prodImg">URL Gambar Produk</label>
-                    <input type="url" id="prodImg" placeholder="https://example.com/image.jpg" required>
+                    <input type="url" id="prodImg" placeholder="https://..." required>
                 </div>
                 <div class="form-group">
                     <label for="prodVid">URL Video Demo (MP4)</label>
-                    <input type="url" id="prodVid" placeholder="https://www.w3schools.com/html/mov_bbb.mp4" required>
+                    <input type="url" id="prodVid" placeholder="https://..." required>
                 </div>
                 <button type="submit">Simpan Produk ke Database</button>
             </form>
 
-            <!-- Status Pesanan untuk Penjual/Admin -->
             <div class="status-panel">
                 <h3>Monitor Status Pesanan (Admin)</h3>
                 <p style="font-size: 0.85rem; margin: 5px 0;">Pesanan Terbaru Pelanggan:</p>
@@ -303,10 +385,10 @@
         </div>
 
         <!-- PANEL PEMBELI (CUSTOMER) -->
-        <div class="section-box">
+        <div class="section-box" id="customerPanelWrapper">
+            <button class="logout-btn" onclick="handleLogout()">Logout</button>
             <h2>Panel Pembeli (Katalog Gadget)</h2>
             
-            <!-- Katalog Grid (6 Produk Android & iPhone) -->
             <div class="catalog-grid" id="catalogGrid">
                 <!-- Produk 1 -->
                 <div class="product-card">
@@ -316,7 +398,6 @@
                     <div class="product-desc">Layar Super Retina XDR 6.1", Chip A17 Pro, Kamera 48MP, RAM 8GB.</div>
                     <video class="product-video" controls>
                         <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                        Browser Anda tidak Mendukung Tag Video.
                     </video>
                     <div class="card-actions">
                         <a href="#checkout" class="btn-buy" onclick="checkoutDirect('iPhone 15 Pro', 18500000)">Beli Sekarang</a>
@@ -326,7 +407,7 @@
 
                 <!-- Produk 2 -->
                 <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=500&q=80" alt="Samsung Galaxy S24 Ultra">
+                    <img src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=500&q=80" alt="Samsung S24 Ultra">
                     <div class="product-title">Samsung Galaxy S24 Ultra</div>
                     <div class="product-price">Rp 20.999.000</div>
                     <div class="product-desc">Layar Dynamic AMOLED 2X 120Hz, Snapdragon 8 Gen 3, S-Pen Included.</div>
@@ -400,7 +481,6 @@
                 </div>
             </div>
 
-            <!-- Panel Keranjang & Checkout -->
             <div class="cart-panel" id="checkout">
                 <h3>Keranjang Belanja Anda</h3>
                 <ul class="cart-items" id="cartList">
@@ -409,23 +489,91 @@
                 <div class="cart-total">Total: Rp <span id="cartTotal">0</span></div>
                 <button class="btn-action" onclick="processCheckout()">Checkout & Proses Pesanan</button>
                 
-                <!-- Status Pesanan Pembeli -->
                 <div style="margin-top: 15px;">
-                    <p style="font-size: 0.9srem; font-weight: bold;">Status Pesanan Anda:</p>
+                    <p style="font-size: 0.9rem; font-weight: bold;">Status Pesanan Anda:</p>
                     <span id="customerOrderStatus" class="status-badge" style="background-color: #f8d7da; color: #721c24;">Belum Ada Transaksi</span>
                 </div>
             </div>
         </div>
+
     </div>
 
     <script>
-        // Array untuk menyimpan data keranjang
+        let currentRoleLogin = 'admin';
         let cart = [];
 
-        // Fungsi Tambah Produk dari Panel Admin
+        function switchLoginRole(role) {
+            currentRoleLogin = role;
+            const title = document.getElementById('loginTitle');
+            const btnText = document.getElementById('loginBtnText');
+            const tabAdmin = document.getElementById('tabAdmin');
+            const tabCustomer = document.getElementById('tabCustomer');
+
+            if (role === 'admin') {
+                title.innerText = "Login Administrator";
+                btnText.innerText = "Masuk sebagai Admin";
+                tabAdmin.classList.add('active');
+                tabCustomer.classList.remove('active');
+            } else {
+                title.innerText = "Login Pembeli";
+                btnText.innerText = "Masuk sebagai Pembeli";
+                tabCustomer.classList.add('active');
+                tabAdmin.classList.remove('active');
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const user = document.getElementById('loginUser').value;
+            const pass = document.getElementById('loginPass').value;
+
+            // Simulasi Validasi Kredensial
+            if (currentRoleLogin === 'admin') {
+                if (user === 'admin' && pass === 'admin123') {
+                    alert('Login Admin Berhasil!');
+                    showDashboard('admin');
+                } else {
+                    alert('Username atau Password Admin salah! Gunakan admin / admin123');
+                }
+            } else {
+                if (user === 'user' && pass === 'user123') {
+                    alert('Login Pembeli Berhasil!');
+                    showDashboard('customer');
+                } else {
+                    alert('Username atau Password Pembeli salah! Gunakan user / user123');
+                }
+            }
+        }
+
+        function showDashboard(role) {
+            document.getElementById('loginSection').style.display = 'none';
+            const appContainer = document.getElementById('appContainer');
+            appContainer.style.display = 'grid';
+
+            const adminPanel = document.getElementById('adminPanelWrapper');
+            const custPanel = document.getElementById('customerPanelWrapper');
+
+            // Kontrol Tampilan Panel Berdasarkan Hak Akses Login
+            if (role === 'admin') {
+                adminPanel.style.display = 'block';
+                custPanel.style.display = 'none';
+                appContainer.style.gridTemplateColumns = '1fr'; // Full width single panel for admin
+            } else {
+                adminPanel.style.display = 'none';
+                custPanel.style.display = 'block';
+                appContainer.style.gridTemplateColumns = '1fr'; // Full width single panel for customer
+            }
+        }
+
+        function handleLogout() {
+            document.getElementById('appContainer').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'flex';
+            document.getElementById('loginForm').reset();
+        }
+
+        // Fitur Tambah Produk Admin
         function handleAddProduct(event) {
             event.preventDefault();
-            
             const name = document.getElementById('prodName').value;
             const price = parseInt(document.getElementById('prodPrice').value);
             const desc = document.getElementById('prodDesc').value;
@@ -433,7 +581,6 @@
             const vid = document.getElementById('prodVid').value;
 
             const grid = document.getElementById('catalogGrid');
-            
             const newCard = document.createElement('div');
             newCard.className = 'product-card';
             newCard.innerHTML = `
@@ -443,37 +590,32 @@
                 <div class="product-desc">${desc}</div>
                 <video class="product-video" controls>
                     <source src="${vid}" type="video/mp4">
-                    Video tidak didukung.
                 </video>
                 <div class="card-actions">
                     <a href="#checkout" class="btn-buy" onclick="checkoutDirect('${name}', ${price})">Beli Sekarang</a>
                     <button class="btn-cart" onclick="addToCart('${name}', ${price})">🛒</button>
                 </div>
             `;
-            
             grid.prepend(newCard);
-            alert('Produk baru berhasil disimpan ke database katalog!');
+            alert('Produk berhasil ditambahkan ke katalog!');
             document.getElementById('productForm').reset();
         }
 
-        // Fungsi Tambah ke Keranjang
         function addToCart(name, price) {
             cart.push({ name, price });
             updateCartUI();
         }
 
-        // Update Tampilan Keranjang
         function updateCartUI() {
             const cartList = document.getElementById('cartList');
             const cartTotal = document.getElementById('cartTotal');
-            
             cartList.innerHTML = '';
             let total = 0;
 
             if (cart.length === 0) {
                 cartList.innerHTML = '<li style="color: #888; justify-content: center;">Keranjang masih kosong</li>';
             } else {
-                cart.forEach((item, index) => {
+                cart.forEach((item) => {
                     total += item.price;
                     const li = document.createElement('li');
                     li.innerHTML = `<span>${item.name}</span> <span>Rp ${item.price.toLocaleString('id-ID')}</span>`;
@@ -483,28 +625,21 @@
             cartTotal.innerText = total.toLocaleString('id-ID');
         }
 
-        // Fungsi Tombol Beli Sekarang Langsung
         function checkoutDirect(name, price) {
             cart = [{ name, price }];
             updateCartUI();
             processCheckout();
         }
 
-        // Simulasi Proses Checkout dan Status Pesanan
         function processCheckout() {
             if (cart.length === 0) {
-                alert('Keranjang belanja Anda masih kosong!');
+                alert('Keranjang belanja kosong!');
                 return;
             }
 
-            const statuses = ["Pesanan Diproses", "Pesanan Dikirim", "Pesanan Selesai"];
-            let currentStatusIdx = 0;
-
-            // Set Status Awal
             updateStatusDisplays("Pesanan Diproses (Menunggu Pembayaran)");
-            alert('Checkout Berhasil! Transaksi Anda sedang diproses.');
-            
-            // Simulasi perubahan status secara otomatis bertahap untuk demo interaktif
+            alert('Checkout Berhasil!');
+
             setTimeout(() => {
                 updateStatusDisplays("Pesanan Dikirim (Kurir dalam perjalanan)");
             }, 4000);
@@ -517,14 +652,12 @@
             updateCartUI();
         }
 
-        // Helper untuk update status di Panel Pembeli & Admin
         function updateStatusDisplays(statusText) {
             const custStatus = document.getElementById('customerOrderStatus');
             const adminStatus = document.getElementById('adminOrderStatus');
 
             custStatus.innerText = statusText;
             adminStatus.innerText = statusText;
-
             custStatus.style.backgroundColor = '#d4edda';
             custStatus.style.color = '#155724';
             adminStatus.style.backgroundColor = '#d4edda';
@@ -533,5 +666,3 @@
     </script>
 </body>
 </html>
-
-  
