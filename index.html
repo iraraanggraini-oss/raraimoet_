@@ -2,113 +2,626 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>GadgetStore Pro - Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GadgetStore Management System & Login</title>
     <style>
-        :root { --soft-pink: #fff0f3; --accent-pink: #ff69b4; --dark-pink: #d81b60; }
-        body { font-family: 'Segoe UI', sans-serif; background: #fdfdfd; padding: 20px; }
-        .box { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        header { background: var(--dark-pink); color: white; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
-        input, select, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
-        button { background: var(--accent-pink); color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; }
-        .hidden { display: none; }
-        img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; }
-        video { width: 100%; height: 180px; background: #000; margin: 10px 0; }
-        .status-box { padding: 15px; background: var(--soft-pink); border-radius: 10px; margin-top: 10px; }
+        :root {
+            --primary-pink: #ffb6c1;
+            --soft-pink-bg: #fff0f3;
+            --accent-pink: #ff69b4;
+            --dark-pink: #d81b60;
+            --text-color: #333333;
+            --bg-color: #f9f9f9;
+            --white: #ffffff;
+            --shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+            --border-radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--accent-pink), var(--primary-pink));
+            color: var(--white);
+            text-align: center;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Halaman Login Container */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 50vh;
+        }
+
+        .login-box {
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #ffe4e1;
+            text-align: center;
+        }
+
+        .login-box h2 {
+            color: var(--dark-pink);
+            margin-bottom: 20px;
+        }
+
+        .tab-login {
+            display: flex;
+            margin-bottom: 20px;
+            background: var(--soft-pink-bg);
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: #666;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-pink);
+            color: white;
+        }
+
+        /* App Container (Dashboard Utama) */
+        .app-container {
+            display: none;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 1024px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section-box {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            border: 1px solid #ffe4e1;
+            position: relative;
+        }
+
+        .section-box h2 {
+            color: var(--dark-pink);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--soft-pink-bg);
+            font-size: 1.5rem;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        /* Form & Input */
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input, 
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--accent-pink);
+        }
+
+        button, .btn-action {
+            background-color: var(--accent-pink);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            width: 100%;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        button:hover, .btn-action:hover {
+            background-color: var(--dark-pink);
+        }
+
+        /* Keranjang & Status */
+        .cart-panel, .status-panel {
+            margin-top: 25px;
+            background: var(--soft-pink-bg);
+            padding: 15px;
+            border-radius: var(--border-radius);
+        }
+
+        .cart-items {
+            list-style: none;
+            max-height: 150px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        .cart-items li {
+            padding: 5px 0;
+            border-bottom: 1px dashed #ffcccb;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .cart-total {
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: right;
+            color: var(--dark-pink);
+        }
+
+        /* Katalog Grid */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border: 1px solid #ffe4e1;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--dark-pink);
+            margin-bottom: 8px;
+        }
+
+        .product-desc {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 10px;
+            flex-grow: 1;
+        }
+
+        .product-video {
+            width: 100%;
+            height: 120px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            background: #000;
+        }
+
+        .card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            background: #ffeeba;
+            color: #856404;
+        }
     </style>
 </head>
 <body>
 
-<!-- Halaman Login -->
-<div id="loginPage" class="box" style="max-width:400px; margin:auto;">
-    <h2>GadgetStore Login</h2>
-    <select id="role"><option value="admin">Administrator</option><option value="customer">Pembeli</option></select>
-    <input type="text" id="user" placeholder="Username">
-    <input type="password" id="pass" placeholder="Password">
-    <button onclick="login()">Masuk ke Sistem</button>
-</div>
+    <header>
+        <h1>GadgetStore Management System</h1>
+        <p>Silakan Login Sesuai Hak Akses Anda</p>
+    </header>
 
-<!-- Dashboard Utama -->
-<div id="app" class="hidden">
-    <header><h1>GadgetStore Management System</h1></header>
-    
-    <!-- Admin Panel -->
-    <div id="adminPanel" class="box hidden">
-        <h2>Panel Admin (Input Produk)</h2>
-        <input type="text" id="iName" placeholder="Nama Produk">
-        <textarea id="iDesc" placeholder="Deskripsi & Harga"></textarea>
-        <input type="url" id="iImg" placeholder="URL Gambar Produk">
-        <button onclick="alert('Produk berhasil disimpan ke database!')">Simpan Produk ke Database</button>
-        <div class="status-box">
-            <h3>Status Pesanan (Monitor)</h3>
-            <p id="adminStatus">Belum ada pesanan masuk.</p>
+    <!-- HALAMAN LOGIN (ADMIN / PEMBELI - USERNAME & PASSWORD BEBAS) -->
+    <div id="loginSection" class="login-container">
+        <div class="login-box">
+            <h2 id="loginTitle">Login Administrator</h2>
+            <div class="tab-login">
+                <button class="tab-btn active" id="tabAdmin" onclick="switchLoginRole('admin')">Admin</button>
+                <button class="tab-btn" id="tabCustomer" onclick="switchLoginRole('customer')">Pembeli</button>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="loginUser" placeholder="Bebas, ketik apa saja..." required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPass" placeholder="Bebas, ketik apa saja..." required>
+                </div>
+                <button type="submit" id="loginBtnText">Masuk sebagai Admin</button>
+            </form>
         </div>
     </div>
 
-    <!-- Customer Panel -->
-    <div id="customerPanel" class="box hidden">
-        <h2>Katalog Gadget</h2>
-        <div id="catalog" class="grid"></div>
-        <div class="box">
-            <h2>Keranjang Belanja</h2>
-            <div id="cartItems"></div>
-            <h3>Total: Rp <span id="total">0</span></h3>
-            <select id="payMethod"><option>Transfer Bank</option><option>E-Wallet</option><option>COD</option></select>
-            <button onclick="checkout()">Beli Sekarang (Checkout)</button>
-            <p id="custStatus" style="font-weight:bold; color:var(--dark-pink);"></p>
+    <!-- HALAMAN UTAMA (DASHBOARD SETELAH LOGIN) -->
+    <div class="app-container" id="appContainer">
+        
+        <!-- PANEL ADMINISTRATOR -->
+        <div class="section-box" id="adminPanelWrapper">
+            <button class="logout-btn" onclick="handleLogout()">Logout</button>
+            <h2>Panel Administrator</h2>
+            <form id="productForm" onsubmit="handleAddProduct(event)">
+                <div class="form-group">
+                    <label for="prodName">Nama Produk</label>
+                    <input type="text" id="prodName" placeholder="Contoh: iPhone 15 Pro Max" required>
+                </div>
+                <div class="form-group">
+                    <label for="prodPrice">Harga Produk (Rp)</label>
+                    <input type="number" id="prodPrice" placeholder="Contoh: 19000000" required>
+                </div>
+                <div class="form-group">
+                    <label for="prodDesc">Deskripsi & Spesifikasi</label>
+                    <textarea id="prodDesc" rows="3" placeholder="Layar 6.7 inci, A17 Pro..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="prodImg">URL Gambar Produk</label>
+                    <input type="url" id="prodImg" placeholder="https://..." required>
+                </div>
+                <div class="form-group">
+                    <label for="prodVid">URL Video Demo (MP4)</label>
+                    <input type="url" id="prodVid" placeholder="https://..." required>
+                </div>
+                <button type="submit">Simpan Produk ke Database</button>
+            </form>
+
+            <div class="status-panel">
+                <h3>Monitor Status Pesanan (Admin)</h3>
+                <p style="font-size: 0.85rem; margin: 5px 0;">Pesanan Terbaru Pelanggan:</p>
+                <div id="adminOrderStatus" class="status-badge">Belum ada transaksi</div>
+            </div>
         </div>
+
+        <!-- PANEL PEMBELI (CUSTOMER) -->
+        <div class="section-box" id="customerPanelWrapper">
+            <button class="logout-btn" onclick="handleLogout()">Logout</button>
+            <h2>Panel Pembeli (Katalog Gadget)</h2>
+            
+            <!-- Katalog Grid (6 Produk HP) -->
+            <div class="catalog-grid" id="catalogGrid"></div>
+
+            <div class="cart-panel" id="checkout">
+                <h3>Keranjang Belanja Anda</h3>
+                <ul class="cart-items" id="cartList">
+                    <li style="color: #888; justify-content: center;">Keranjang masih kosong</li>
+                </ul>
+                <div class="cart-total">Total: Rp <span id="cartTotal">0</span></div>
+                
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <label>Metode Pembayaran</label>
+                    <select id="paymentMethod">
+                        <option value="Transfer Bank (BCA/Mandiri)">Transfer Bank (BCA / Mandiri)</option>
+                        <option value="E-Wallet (Dana/OVO/GoPay)">E-Wallet (Dana / OVO / GoPay)</option>
+                        <option value="COD (Bayar di Tempat)">COD (Bayar di Tempat)</option>
+                    </select>
+                </div>
+
+                <button class="btn-action" onclick="processCheckout()">Checkout & Proses Pesanan</button>
+                
+                <div style="margin-top: 15px;">
+                    <p style="font-size: 0.9rem; font-weight: bold;">Status Pesanan Anda:</p>
+                    <div id="customerOrderStatus" class="status-badge" style="background-color: #f8d7da; color: #721c24;">Belum Ada Transaksi</div>
+                </div>
+            </div>
+        </div>
+
     </div>
-</div>
 
-<script>
-    const products = [
-        {name: "iPhone 15 Pro", price: 18500000, desc: "Chip A17 Pro, 120Hz", img: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500", vid: "https://www.w3schools.com/html/mov_bbb.mp4"},
-        {name: "Samsung S24 Ultra", price: 20999000, desc: "Snapdragon 8 Gen 3", img: "https://images.unsplash.com/photo-1707343843437-caacff5cfa74?w=500", vid: "https://www.w3schools.com/html/mov_bbb.mp4"},
-        {name: "Xiaomi 14 Pro", price: 11999000, desc: "Leica Lens, RAM 12GB", img: "https://images.unsplash.com/photo-1696446701796-da61225697cc?w=500", vid: "https://www.w3schools.com/html/mov_bbb.mp4"},
-        {name: "iPhone 14", price: 13200000, desc: "A15 Bionic, Kamera Dual", img: "https://images.unsplash.com/photo-1678685880041-067645f7783d?w=500", vid: "https://www.w3schools.com/html/mov_bbb.mp4"},
-        {name: "Google Pixel 8", price: 10500000, desc: "Tensor G3, AI Camera", img: "https://images.unsplash.com/photo-1697204642232-a59f9ef78484?w=500", vid: "https://www.w3schools.com/html/mov_bbb.mp4"},
-        {name: "Oppo Find X7", price: 16700000, desc: "SuperVOOC 100W", img: "https://images.unsplash.com/photo-1616348436168-de43ad0db179?w=500", vid: "https://www.w3schools.com/html/mov_bbb.mp4"}
-    ];
+    <script>
+        let currentRoleLogin = 'admin';
+        let cart = [];
 
-    let cart = [];
+        // Data 6 Produk HP (Gambar & Video Asli Tanpa Diubah)
+        const products = [
+            {
+                name: "iPhone 15 Pro", 
+                price: 18500000, 
+                desc: "Layar Super Retina XDR 6.1\", Chip A17 Pro, Kamera 48MP, RAM 8GB.", 
+                img: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=500&q=80", 
+                vid: "https://www.w3schools.com/html/mov_bbb.mp4"
+            },
+            {
+                name: "Samsung Galaxy S24 Ultra", 
+                price: 20999000, 
+                desc: "Layar Dynamic AMOLED 2X 120Hz, Snapdragon 8 Gen 3, S-Pen Included.", 
+                img: "https://images.unsplash.com/photo-1707343843437-caacff5cfa74?auto=format&fit=crop&w=500&q=80", 
+                vid: "https://www.w3schools.com/html/mov_bbb.mp4"
+            },
+            {
+                name: "Xiaomi 14 Pro", 
+                price: 11999000, 
+                desc: "Leica Optics, Snapdragon 8 Gen 3, Baterai 4880 mAh, Fast Charging 120W.", 
+                img: "https://images.unsplash.com/photo-1696446701796-da61225697cc?auto=format&fit=crop&w=500&q=80", 
+                vid: "https://www.w3schools.com/html/mov_bbb.mp4"
+            },
+            {
+                name: "iPhone 14", 
+                price: 13200000, 
+                desc: "Layar 6.1\" Super Retina XDR, Chip A15 Bionic, Kamera Ganda Handal.", 
+                img: "https://images.unsplash.com/photo-1678685880041-067645f7783d?auto=format&fit=crop&w=500&q=80", 
+                vid: "https://www.w3schools.com/html/mov_bbb.mp4"
+            },
+            {
+                name: "Google Pixel 8 Pro", 
+                price: 15500000, 
+                desc: "Google Tensor G3, AI Photography Tingkat Lanjut, Layar 120Hz Smooth.", 
+                img: "https://images.unsplash.com/photo-1697204642232-a59f9ef78484?auto=format&fit=crop&w=500&q=80", 
+                vid: "https://www.w3schools.com/html/mov_bbb.mp4"
+            },
+            {
+                name: "OPPO Find X7 Ultra", 
+                price: 16700000, 
+                desc: "Dual Periscope Telephoto, Hasselblad Camera for Mobile, RAM 16GB.", 
+                img: "https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&w=500&q=80", 
+                vid: "https://www.w3schools.com/html/mov_bbb.mp4"
+            }
+        ];
 
-    function login() {
-        const role = document.getElementById('role').value;
-        document.getElementById('loginPage').classList.add('hidden');
-        document.getElementById('app').classList.remove('hidden');
-        if(role === 'admin') document.getElementById('adminPanel').classList.remove('hidden');
-        else { document.getElementById('customerPanel').classList.remove('hidden'); render(); }
-    }
+        function switchLoginRole(role) {
+            currentRoleLogin = role;
+            const title = document.getElementById('loginTitle');
+            const btnText = document.getElementById('loginBtnText');
+            const tabAdmin = document.getElementById('tabAdmin');
+            const tabCustomer = document.getElementById('tabCustomer');
 
-    function render() {
-        const cat = document.getElementById('catalog');
-        products.forEach(p => {
-            cat.innerHTML += `
-                <div class="box">
-                    <img src="${p.img}">
-                    <h3>${p.name}</h3>
-                    <p><b>Rp ${p.price.toLocaleString()}</b><br>${p.desc}</p>
-                    <video controls><source src="${p.vid}" type="video/mp4"></video>
-                    <select id="clr-${p.name}"><option>Space Black</option><option>Silver</option><option>Gold</option></select>
-                    <button onclick="add('${p.name}', ${p.price})">Tambah ke Keranjang</button>
-                </div>`;
-        });
-    }
+            if (role === 'admin') {
+                title.innerText = "Login Administrator";
+                btnText.innerText = "Masuk sebagai Admin";
+                tabAdmin.classList.add('active');
+                tabCustomer.classList.remove('active');
+            } else {
+                title.innerText = "Login Pembeli";
+                btnText.innerText = "Masuk sebagai Pembeli";
+                tabCustomer.classList.add('active');
+                tabAdmin.classList.remove('active');
+            }
+        }
 
-    function add(name, price) {
-        const color = document.getElementById('clr-'+name).value;
-        cart.push({name, price, color});
-        document.getElementById('cartItems').innerHTML += `<p>${name} (${color}) - Rp ${price.toLocaleString()}</p>`;
-        document.getElementById('total').innerText = cart.reduce((a,b) => a + b.price, 0).toLocaleString();
-    }
+        // Login Bebas Username & Password
+        function handleLogin(event) {
+            event.preventDefault();
+            const user = document.getElementById('loginUser').value;
+            const pass = document.getElementById('loginPass').value;
 
-    function checkout() {
-        if(cart.length === 0) return alert("Keranjang kosong!");
-        const status = "Pesanan Diproses (" + document.getElementById('payMethod').value + ")";
-        document.getElementById('custStatus').innerText = "Status: " + status;
-        document.getElementById('adminStatus').innerText = "Status Pembeli: " + status;
-        alert("Terima kasih! " + status);
-    }
-</script>
+            if(user.trim() === "" || pass.trim() === "") {
+                alert("Username dan password tidak boleh kosong!");
+                return;
+            }
+
+            document.getElementById('loginSection').style.display = 'none';
+            const appContainer = document.getElementById('appContainer');
+            appContainer.style.display = 'grid';
+
+            const adminPanel = document.getElementById('adminPanelWrapper');
+            const custPanel = document.getElementById('customerPanelWrapper');
+
+            if (currentRoleLogin === 'admin') {
+                adminPanel.style.display = 'block';
+                custPanel.style.display = 'none';
+                appContainer.style.gridTemplateColumns = '1fr';
+            } else {
+                adminPanel.style.display = 'none';
+                custPanel.style.display = 'block';
+                appContainer.style.gridTemplateColumns = '1fr';
+                renderCatalog();
+            }
+        }
+
+        function handleLogout() {
+            document.getElementById('appContainer').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'flex';
+            document.getElementById('loginUser').value = '';
+            document.getElementById('loginPass').value = '';
+            cart = [];
+            updateCartUI();
+        }
+
+        // Render Katalog ke HTML
+        function renderCatalog() {
+            const grid = document.getElementById('catalogGrid');
+            grid.innerHTML = '';
+
+            products.forEach((p, index) => {
+                grid.innerHTML += `
+                    <div class="product-card">
+                        <div>
+                            <img src="${p.img}" alt="${p.name}">
+                            <div class="product-title">${p.name}</div>
+                            <div class="product-price">Rp ${p.price.toLocaleString('id-ID')}</div>
+                            <div class="product-desc">${p.desc}</div>
+                            <video class="product-video" controls>
+                                <source src="${p.vid}" type="video/mp4">
+                            </video>
+                        </div>
+                        <div>
+                            <div class="form-group" style="margin-bottom: 8px;">
+                                <label style="font-size: 0.8rem;">Pilih Warna:</label>
+                                <select id="color-${index}">
+                                    <option value="Space Black">Space Black</option>
+                                    <option value="Silver">Silver</option>
+                                    <option value="Gold">Gold</option>
+                                    <option value="Soft Pink">Soft Pink</option>
+                                </select>
+                            </div>
+                            <div class="card-actions">
+                                <a href="#checkout" class="btn-buy" onclick="checkoutDirect(${index})">Beli Sekarang</a>
+                                <button class="btn-cart" onclick="addToCart(${index})">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Tambah Produk dari Admin
+        function handleAddProduct(event) {
+            event.preventDefault();
+            const name = document.getElementById('prodName').value;
+            const price = parseInt(document.getElementById('prodPrice').value);
+            const desc = document.getElementById('prodDesc').value;
+            const img = document.getElementById('prodImg').value;
+            const vid = document.getElementById('prodVid').value;
+
+            products.unshift({ name, price, desc, img, vid });
+            alert('Produk baru berhasil disimpan ke database!');
+            document.getElementById('productForm').reset();
+        }
+
+        function addToCart(index) {
+            const p = products[index];
+            const color = document.getElementById(`color-${index}`).value;
+            cart.push({ name: p.name, price: p.price, color: color });
+            updateCartUI();
+            alert(`Berhasil menambah ${p.name} (${color}) ke keranjang!`);
+        }
+
+        function updateCartUI() {
+            const cartList = document.getElementById('cartList');
+            const cartTotal = document.getElementById('cartTotal');
+            cartList.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                cartList.innerHTML = '<li style="color: #888; justify-content: center;">Keranjang masih kosong</li>';
+            } else {
+                cart.forEach((item) => {
+                    total += item.price;
+                    cartList.innerHTML += `<li><span>${item.name} (${item.color})</span> <span>Rp ${item.price.toLocaleString('id-ID')}</span></li>`;
+                });
+            }
+            cartTotal.innerText = total.toLocaleString('id-ID');
+        }
+
+        function checkoutDirect(index) {
+            const p = products[index];
+            const color = document.getElementById(`color-${index}`).value;
+            cart = [{ name: p.name, price: p.price, color: color }];
+            updateCartUI();
+            processCheckout();
+        }
+
+        function processCheckout() {
+            if (cart.length === 0) {
+                alert('Keranjang belanja kosong!');
+                return;
+            }
+
+            const method = document.getElementById('paymentMethod').value;
+            updateStatusDisplays("Pesanan Diproses (Pembayaran via " + method + ")");
+            alert('Checkout Berhasil! Pesanan Anda sedang diproses.');
+
+            setTimeout(() => {
+                updateStatusDisplays("Pesanan Dikirim (Kurir dalam perjalanan)");
+            }, 4000);
+
+            setTimeout(() => {
+                updateStatusDisplays("Pesanan Selesai (Diterima Pembeli)");
+            }, 8000);
+
+            cart = [];
+            updateCartUI();
+        }
+
+        function updateStatusDisplays(statusText) {
+            const custStatus = document.getElementById('customerOrderStatus');
+            const adminStatus = document.getElementById('adminOrderStatus');
+
+            custStatus.innerText = statusText;
+            adminStatus.innerText = statusText;
+            custStatus.style.backgroundColor = '#d4edda';
+            custStatus.style.color = '#155724';
+            adminStatus.style.backgroundColor = '#d4edda';
+            adminStatus.style.color = '#155724';
+        }
+    </script>
 </body>
 </html>
